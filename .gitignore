@@ -13,3 +13,4 @@ nbdist/
 .nb-gradle/
 =======
 .idea/
+node_modules/
