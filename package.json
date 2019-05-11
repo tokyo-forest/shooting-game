@@ -6,7 +6,8 @@
   "scripts": {
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "push-dir": "^0.4.1",
     "ts-loader": "^6.0.0",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2"
