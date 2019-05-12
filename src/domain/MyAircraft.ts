@@ -12,6 +12,8 @@ export class MyAircraft implements Aircraft {
     vx: number;
     vy: number;
     counter: number;
+    disable: boolean;
+
     // 弾の発射間隔
     launchInterval: number;
 
@@ -25,6 +27,7 @@ export class MyAircraft implements Aircraft {
         this.launchInterval = 10;
         this.bullets = new Array<Bullet>();
         this.bulletFactory = bulletFactory;
+        this.disable = false;
     }
 
     moveLeft(): void {
@@ -71,6 +74,17 @@ export class MyAircraft implements Aircraft {
             this.bullets.push(newBullet)
         }
 
+        // TODO MyAircraftの責務なのかは要検討
         this.bullets.forEach(b => b.play());
+
+        // 弾の表示状態を監視
+        const disableBullets = this.bullets.filter(b => b.disable);
+        if(disableBullets.length >= 1) {
+            console.log('bullet delete')
+            disableBullets.forEach(b => this.bulletFactory.deleteBullet(b));
+            this.bullets = this.bullets.filter(b => !b.disable);
+
+
+        }
     }
 }

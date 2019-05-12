@@ -17,6 +17,7 @@ export default class BulletFactory extends BaseFactory{
      */
     createMyBullet(x: number, y: number): Bullet {
         let sprite = PIXI.Sprite.from(this.MY_BULLET_VIEW);
+        sprite.anchor.set(0.5);
         sprite.x = x;
         sprite.y = y;
 
@@ -32,7 +33,16 @@ export default class BulletFactory extends BaseFactory{
      */
     createEnemyBullet(): Bullet {
         let sprite = PIXI.Sprite.from(this.ENEMY_BULLET_VIEW);
+        sprite.anchor.set(0.5);
         this.addChildSprite(sprite);
         return new Bullet(sprite);
+    }
+
+    /**
+     * 弾を削除する
+     * @param target
+     */
+    deleteBullet(target: Bullet): void{
+        this.removeChildSprite(target.sprite);
     }
 }

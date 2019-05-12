@@ -27,6 +27,7 @@ export default class AircraftFactory extends BaseFactory{
      */
     createMyAircraft(): MyAircraft {
         let sprite = PIXI.Sprite.from(this.MY_AIRCRAFT_VIEW);
+        sprite.anchor.set(0.5);
         this.addChildSprite(sprite);
         return new MyAircraft(sprite, this.bulletFactory);
     }
@@ -36,6 +37,7 @@ export default class AircraftFactory extends BaseFactory{
      */
     createEnemyAircraft(): EnemyAircraft {
         let sprite = PIXI.Sprite.from(this.ENEMY_AIRCRAFT_VIEW);
+        sprite.anchor.set(0.5);
         this.addChildSprite(sprite);
         return new EnemyAircraft(sprite, this.bulletFactory);
     }

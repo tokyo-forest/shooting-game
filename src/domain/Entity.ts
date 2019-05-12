@@ -7,5 +7,6 @@ export interface Entity {
     sprite: Sprite
     vx: number
     vy: number
+    disable: boolean
     play: () => void
 }

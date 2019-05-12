@@ -18,4 +18,13 @@ export default class BaseFactory {
     protected addChildSprite(sprite: PIXI.Sprite) {
         this.stage.addChild(sprite);
     }
+
+    /**
+     * spriteをstageから削除する
+     *
+     * @param sprite
+     */
+    protected removeChildSprite(sprite: PIXI.Sprite) {
+        this.stage.removeChild(sprite);
+    }
 }

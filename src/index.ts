@@ -20,10 +20,6 @@ let aircraftFactory: AircraftFactory = new AircraftFactory(app.stage);
 let ufo: MyAircraft = aircraftFactory.createMyAircraft();
 let enemy1: EnemyAircraft = aircraftFactory.createEnemyAircraft();
 
-app.stage.addChild(ufo.sprite);
-app.stage.addChild(enemy1.sprite);
-
-
 let keyboardManager: KeyboardManager = new KeyboardManager();
 
 keyboardManager.left.pushPressHandler((event: any) => {
