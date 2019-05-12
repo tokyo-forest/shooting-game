@@ -1,29 +1,38 @@
 import * as PIXI from 'pixi.js'
 import Bullet from "../domain/Bullet";
+import BaseFactory from "./BaseFactory";
 
 /**
  * 弾を作成するファクトリクラス
  */
-export default class BulletFactory {
+export default class BulletFactory extends BaseFactory{
     // 自機の弾
-    private MY_BULLET_VIEW: string = 'contents/img/bullet_red.png';
+    MY_BULLET_VIEW: string = 'contents/img/bullet_red.png';
 
     // 敵機の弾
-    private ENEMY_BULLET_VIEW: string = 'contents/img/bullet_blue.png';
+    ENEMY_BULLET_VIEW: string = 'contents/img/bullet_blue.png';
 
     /**
      * 自機の弾を作成する
      */
-    createMyAircraft(): Bullet {
+    createMyBullet(x: number, y: number): Bullet {
         let sprite = PIXI.Sprite.from(this.MY_BULLET_VIEW);
-        return new Bullet(sprite);
+        sprite.x = x;
+        sprite.y = y;
+
+        let myBullet = new Bullet(sprite);
+        myBullet.vy = -1;
+        this.addChildSprite(sprite);
+
+        return myBullet
     }
 
     /**
      * 敵機の弾を作成する
      */
-    createEnemyAircraft(): Bullet {
+    createEnemyBullet(): Bullet {
         let sprite = PIXI.Sprite.from(this.ENEMY_BULLET_VIEW);
+        this.addChildSprite(sprite);
         return new Bullet(sprite);
     }
 }

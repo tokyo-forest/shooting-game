@@ -15,7 +15,7 @@ const app = new PIXI.Application();
 // can then insert into the DOM
 document.body.appendChild(app.view);
 
-let aircraftFactory: AircraftFactory = new AircraftFactory();
+let aircraftFactory: AircraftFactory = new AircraftFactory(app.stage);
 
 let ufo: MyAircraft = aircraftFactory.createMyAircraft();
 let enemy1: EnemyAircraft = aircraftFactory.createEnemyAircraft();

@@ -1,11 +1,21 @@
 import {MyAircraft} from "../domain/MyAircraft";
 import * as PIXI from 'pixi.js'
 import {EnemyAircraft} from "../domain/EnemyAircraft";
+import BaseFactory from "./BaseFactory";
+import BulletFactory from "./BulletFactory";
 
 /**
  * 機体を作成するファクトリクラス
  */
-export default class AircraftFactory {
+export default class AircraftFactory extends BaseFactory{
+
+    private bulletFactory: BulletFactory;
+
+    constructor(stage: PIXI.Container) {
+        super(stage);
+        this.bulletFactory = new BulletFactory(stage);
+    }
+
     // 自機の画像
     MY_AIRCRAFT_VIEW: string = 'contents/img/shuttle.gif';
 
@@ -17,7 +27,8 @@ export default class AircraftFactory {
      */
     createMyAircraft(): MyAircraft {
         let sprite = PIXI.Sprite.from(this.MY_AIRCRAFT_VIEW);
-        return new MyAircraft(sprite);
+        this.addChildSprite(sprite);
+        return new MyAircraft(sprite, this.bulletFactory);
     }
 
     /**
@@ -25,6 +36,7 @@ export default class AircraftFactory {
      */
     createEnemyAircraft(): EnemyAircraft {
         let sprite = PIXI.Sprite.from(this.ENEMY_AIRCRAFT_VIEW);
-        return new EnemyAircraft(sprite);
+        this.addChildSprite(sprite);
+        return new EnemyAircraft(sprite, this.bulletFactory);
     }
 }
