@@ -1,33 +1,23 @@
 import {Aircraft} from "./Aircraft";
-import Bullet from "./Bullet";
-import BulletFactory from "../common/BulletFactory";
+import Bullet from "../bullet/Bullet";
+import BulletFactory from "../factory/BulletFactory";
 
 /**
  * 自機のドメインクラス.
  */
-export class MyAircraft implements Aircraft {
-    bulletFactory: BulletFactory;
-
-    sprite: PIXI.Sprite;
-    vx: number;
-    vy: number;
-    counter: number;
-    disable: boolean;
-
+export class MyAircraft extends Aircraft {
     // 弾の発射間隔
     launchInterval: number;
 
+    counter: number;
+
     bullets: Array<Bullet>;
 
-    constructor(sprite: PIXI.Sprite, bulletFactory: BulletFactory) {
-        this.sprite = sprite;
-        this.vx = 0;
-        this.vy = 0;
-        this.counter = 0;
-        this.launchInterval = 10;
+    constructor(sprite: PIXI.Sprite, radius: number, launchInterval: number, bulletFactory: BulletFactory) {
+        super(sprite, radius, bulletFactory);
         this.bullets = new Array<Bullet>();
-        this.bulletFactory = bulletFactory;
-        this.disable = false;
+        this.launchInterval = launchInterval;
+        this.counter = 0;
     }
 
     moveLeft(): void {
@@ -70,7 +60,7 @@ export class MyAircraft implements Aircraft {
         // 発射間隔ごとに弾を発射する
         if (this.counter % this.launchInterval === 0) {
             console.log("created");
-            const newBullet: Bullet = this.bulletFactory.createMyBullet(this.sprite.x, this.sprite.y);
+            const newBullet: Bullet = this.bulletFactory.createBullet(this);
             this.bullets.push(newBullet)
         }
 

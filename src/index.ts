@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js'
 import KeyboardManager from './common/KeyboardManager';
-import {MyAircraft} from "./domain/MyAircraft";
-import {EnemyAircraft} from "./domain/EnemyAircraft";
-import AircraftFactory from "./common/AircraftFactory";
-import {Keyboard} from "./common/Keyboard";
+import MyAircraftFactory from "./domain/factory/MyAircraftFactory";
+import {Aircraft} from "./domain/aircraft/Aircraft";
+import EnemyAircraftFactory from "./domain/factory/EnemyAircraftFactory";
+import {MyAircraft} from "./domain/aircraft/MyAircraft";
 
 
 // The application will create a renderer using WebGL, if possible,
@@ -15,51 +15,52 @@ const app = new PIXI.Application();
 // can then insert into the DOM
 document.body.appendChild(app.view);
 
-let aircraftFactory: AircraftFactory = new AircraftFactory(app.stage);
+let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(app.stage);
+let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage);
 
-let ufo: MyAircraft = aircraftFactory.createMyAircraft();
-let enemy1: EnemyAircraft = aircraftFactory.createEnemyAircraft();
+let myUfo: MyAircraft = myAircraftFactory.createAircraft();
+let enemy1: Aircraft = enemyAircraftFactory.createAircraft();
 
 let keyboardManager: KeyboardManager = new KeyboardManager();
 
 keyboardManager.left.pushPressHandler((event: any) => {
-    ufo.moveLeft()
+    myUfo.moveLeft()
 });
 keyboardManager.left.pushReleaseHandler((event: any) => {
     if (!keyboardManager.right.isDown) {
-        ufo.stopLeft();
+        myUfo.stopLeft();
     }
 });
 keyboardManager.up.pushPressHandler((event: any) => {
-    ufo.moveUp()
+    myUfo.moveUp()
 });
 keyboardManager.up.pushReleaseHandler((event: any) => {
     if (!keyboardManager.down.isDown) {
-        ufo.stopUp();
+        myUfo.stopUp();
     }
 });
 
 keyboardManager.right.pushPressHandler((event: any) => {
-    ufo.moveRight()
+    myUfo.moveRight()
 });
 keyboardManager.right.pushReleaseHandler((event: any) => {
     if (!keyboardManager.left.isDown) {
-        ufo.stopRight();
+        myUfo.stopRight();
     }
 });
 
 keyboardManager.down.pushPressHandler((event: any) => {
-    ufo.moveDown()
+    myUfo.moveDown()
 });
 keyboardManager.down.pushReleaseHandler((event: any) => {
     if (!keyboardManager.up.isDown) {
-        ufo.stopDown();
+        myUfo.stopDown();
     }
 });
 
 //Set the game state
 let state = (delta: any) => {
-    ufo.play();
+    myUfo.play();
     enemy1.play();
 };
 
