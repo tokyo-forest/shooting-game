@@ -61,8 +61,16 @@ export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextA
     }
 
     // 壁への衝突時の振る舞いを定義
-    collidedWallDown(): void {}
-    collidedWallLeft(): void {}
-    collidedWallRight(): void {}
-    collidedWallUp(): void {}
+    collidedWallDown(): void {
+        this.disable = true;
+    }
+    collidedWallLeft(): void {
+        this.disable = true;
+    }
+    collidedWallRight(): void {
+        this.disable = true;
+    }
+    collidedWallUp(): void {
+        this.disable = true;
+    }
 }
