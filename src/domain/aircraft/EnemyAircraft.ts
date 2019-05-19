@@ -1,6 +1,7 @@
 import {Aircraft} from "./Aircraft";
 import {ActPattern, MovementDirection} from "../actPattern/ActPattern";
 import BulletFactory from "../factory/BulletFactory";
+import {DamageValue} from "../damage/Damage";
 
 /**
  * 敵機のドメインクラス.
@@ -19,6 +20,11 @@ export class EnemyAircraft extends Aircraft {
         const direction: MovementDirection = this.actPattern.nextAction();
         this.vx = direction.vx;
         this.vy = direction.vy;
+    }
+
+    // 相手に与えるダメージを定義する
+    defineDamage(): DamageValue {
+        return new DamageValue(1);
     }
 
     play(): void {

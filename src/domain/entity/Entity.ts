@@ -16,6 +16,7 @@ export interface INextAction {
  * 画面に表示されるオブジェクトを表す.
  */
 export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextAction, IWallCollision {
+    life: number;
     sprite: Sprite;
     vx: number;
     vy: number;
@@ -30,6 +31,7 @@ export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextA
         this.disable = false;
         this.radius = radius;
         this.damageList = new Array<DamageValue>();
+        this.life = 1;
     }
 
     // 移動を行う
@@ -43,6 +45,17 @@ export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextA
 
     // ダメージの処理を行う
     applyDamage(): void {
+        this.damageList.forEach(
+            d => {
+                this.life -= d.getAttack();
+            }
+        );
+        // ダメージ判定処理が終了したため値を空にする
+        this.damageList = new Array<DamageValue>();
+
+        if (this.life <= 0) {
+            this.disable = true;
+        }
     }
 
     // 衝突時の処理を行う

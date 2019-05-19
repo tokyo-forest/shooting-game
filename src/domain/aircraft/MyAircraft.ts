@@ -1,7 +1,6 @@
 import {Aircraft} from "./Aircraft";
 import Bullet from "../bullet/Bullet";
 import BulletFactory from "../factory/BulletFactory";
-import {DamageValue} from "../damage/Damage";
 
 /**
  * 自機のドメインクラス.
@@ -9,9 +8,6 @@ import {DamageValue} from "../damage/Damage";
 export class MyAircraft extends Aircraft {
     // 弾の発射間隔
     launchInterval: number;
-
-    // 残機
-    remainingMachine: number;
 
     counter: number;
 
@@ -25,7 +21,7 @@ export class MyAircraft extends Aircraft {
         this.bullets = new Array<Bullet>();
         this.launchInterval = launchInterval;
         this.counter = 0;
-        this.remainingMachine = 3;
+        this.life = 3;
         this.speed = 5;
     }
 
@@ -94,21 +90,6 @@ export class MyAircraft extends Aircraft {
         // 発射間隔ごとに弾を発射する
         if (this.counter % this.launchInterval === 0) {
             this.bulletFactory.createBullet(this);
-        }
-    }
-
-    // ダメージの処理を行う
-    applyDamage(): void {
-        this.damageList.forEach(
-            d => {
-                this.remainingMachine -= d.getAttack();
-            }
-        );
-        // ダメージ判定処理が終了したため値を空にする
-        this.damageList = new Array<DamageValue>();
-
-        if (this.remainingMachine <= 0) {
-            this.disable = true;
         }
     }
 }

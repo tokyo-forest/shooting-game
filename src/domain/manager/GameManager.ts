@@ -99,6 +99,18 @@ export default class GameManager {
         };
         app.ticker.add(delta => judgeWallCollision());
 
+        // ダメージの解決
+        let applyDamage = () => {
+            myUfo.applyDamage();
+            bulletManager.bullets.forEach(
+                b => b.applyDamage()
+            );
+            enemyManager.enemys.forEach(
+                e => e.applyDamage()
+            );
+        };
+        app.ticker.add(delta => applyDamage());
+
         // 弾の状態監視を定義
         app.ticker.add(delta => bulletManager.observeBulletDisable());
         // 敵の状態監視
