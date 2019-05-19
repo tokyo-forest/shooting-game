@@ -1,4 +1,6 @@
 // TODO 場所移動
+import {DamageValue, IDamage} from "../damage/Damage";
+
 export class Position {
     public x: number;
     public y: number;
@@ -10,10 +12,11 @@ export class Position {
 }
 
 // TODO 場所移動
-export interface ICollisionObject {
+export interface ICollisionObject extends IDamage{
+    damageList: Array<DamageValue>
     radius: number
     // 衝突時の振る舞いを定義
-    collided():void;
+    collided(collisionObject: ICollisionObject):void;
     position(): Position
 }
 
@@ -31,8 +34,8 @@ export default class Collision {
         const totalRadius = obj1.radius + obj2.radius;
 
         if((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2 < totalRadius ** 2) {
-            obj1.collided();
-            obj2.collided();
+            obj1.collided(obj2);
+            obj2.collided(obj1);
             return true;
         }
         return false;
