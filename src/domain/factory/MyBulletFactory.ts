@@ -23,6 +23,7 @@ export default class MyBulletFactory extends BulletFactory{
         let myBullet = new MyBullet(sprite);
         myBullet.vy = -1;
         this.addChildSprite(sprite);
+        this.notifyBulletCreate(myBullet);
 
         return myBullet
     }

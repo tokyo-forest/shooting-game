@@ -1,6 +1,7 @@
 import Sprite = PIXI.Sprite;
 import {Position, ICollisionObject} from "../collision/Collision";
 import {DamageValue, IDamage} from "../damage/Damage";
+import {IWallCollision} from "../collision/WallCollision";
 
 
 export interface IPlay {
@@ -14,7 +15,7 @@ export interface INextAction {
 /**
  * 画面に表示されるオブジェクトを表す.
  */
-export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextAction {
+export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextAction, IWallCollision {
     sprite: Sprite;
     vx: number;
     vy: number;
@@ -58,4 +59,10 @@ export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextA
     defineDamage(): DamageValue {
         return new DamageValue(0);
     }
+
+    // 壁への衝突時の振る舞いを定義
+    collidedWallDown(): void {}
+    collidedWallLeft(): void {}
+    collidedWallRight(): void {}
+    collidedWallUp(): void {}
 }

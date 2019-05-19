@@ -5,14 +5,19 @@ import {MyAircraft} from "../aircraft/MyAircraft";
 import {Aircraft} from "../aircraft/Aircraft";
 import KeyboardManager from "../../common/KeyboardManager";
 import {StraightActPattern} from "../actPattern/ActPattern";
+import Collision from "../collision/Collision";
+import WallCollision from "../collision/WallCollision";
+import BulletManager from "./BulletManager";
 
 /**
- * 自機弾を作成するファクトリクラス
+ * ゲームマネージャクラス
  */
-export default class GameManager{
+export default class GameManager {
     static createGame(app: PIXI.Application) {
-        let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(app.stage);
-        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage, new StraightActPattern());
+        let bulletManager: BulletManager = new BulletManager(app.stage);
+
+        let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(app.stage, bulletManager);
+        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage, bulletManager, new StraightActPattern());
         // let enemyAircraftFactory2: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage, new XXXXXActPattern());
 
         let myUfo: MyAircraft = myAircraftFactory.createAircraft();
@@ -55,10 +60,34 @@ export default class GameManager{
             }
         });
 
-//Set the game state
+        // 弾の衝突判定を定義
+        let judgeCollision = () => {
+            myUfo.bullets.forEach(mb => {
+                Collision.determine(enemy1, mb);
+            });
+        };
+        app.ticker.add(delta => judgeCollision());
+
+        // 壁の衝突判定を定義
+        let wallCollision = new WallCollision(20, 20, 400, 400);
+        let judgeWallCollision = () => {
+            wallCollision.determine(myUfo);
+            myUfo.bullets.forEach(mb => {
+                wallCollision.determine(mb);
+            })
+        };
+        app.ticker.add(delta => judgeWallCollision());
+
+        // 弾の状態監視を定義
+        app.ticker.add(delta => bulletManager.observeBulletDisable());
+
+        // 移動処理を定義
         let state = (delta: any) => {
             myUfo.play();
             enemy1.play();
+            bulletManager.bullets.forEach(
+                b => b.play()
+            );
         };
 
 //Start the game loop

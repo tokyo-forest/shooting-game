@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js'
 import Bullet from "../bullet/Bullet";
 import {Aircraft} from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
-import MyBullet from "../bullet/MyBullet";
 import EnemyBullet from "../bullet/EnemyBullet";
 
 /**
@@ -19,6 +18,9 @@ export default class EnemyBulletFactory extends BulletFactory{
         let sprite = PIXI.Sprite.from(this.ENEMY_BULLET_VIEW);
         sprite.anchor.set(0.5);
         this.addChildSprite(sprite);
-        return new EnemyBullet(sprite);
+
+        const enemyBullet: EnemyBullet = new EnemyBullet(sprite);
+        this.notifyBulletCreate(enemyBullet);
+        return enemyBullet;
     }
 }

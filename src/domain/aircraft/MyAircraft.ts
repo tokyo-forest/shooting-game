@@ -17,16 +17,20 @@ export class MyAircraft extends Aircraft {
 
     bullets: Array<Bullet>;
 
+    // 移動速度
+    speed: number;
+
     constructor(sprite: PIXI.Sprite, radius: number, launchInterval: number, bulletFactory: BulletFactory) {
         super(sprite, radius, bulletFactory);
         this.bullets = new Array<Bullet>();
         this.launchInterval = launchInterval;
         this.counter = 0;
         this.remainingMachine = 3;
+        this.speed = 5;
     }
 
     moveLeft(): void {
-        this.vx = -5;
+        this.vx = -1 * this.speed;
     }
 
     stopLeft(): void {
@@ -34,7 +38,7 @@ export class MyAircraft extends Aircraft {
     }
 
     moveUp(): void {
-        this.vy = -5;
+        this.vy = -1 * this.speed;
     }
 
     stopUp(): void {
@@ -42,7 +46,7 @@ export class MyAircraft extends Aircraft {
     }
 
     moveRight(): void {
-        this.vx = 5;
+        this.vx = this.speed;
     }
 
     stopRight(): void {
@@ -50,11 +54,36 @@ export class MyAircraft extends Aircraft {
     }
 
     moveDown(): void {
-        this.vy = 5;
+        this.vy = this.speed;
     }
 
     stopDown(): void {
         this.vy = 0;
+    }
+
+    // 壁への衝突時の振る舞いを定義
+    collidedWallDown(): void {
+        this.vx = 0;
+        this.vy = 0;
+        this.sprite.y -= this.speed;
+    }
+
+    collidedWallLeft(): void {
+        this.vx = 0;
+        this.vy = 0;
+        this.sprite.x += this.speed;
+    }
+
+    collidedWallRight(): void {
+        this.vx = 0;
+        this.vy = 0;
+        this.sprite.x -= this.speed;
+    }
+
+    collidedWallUp(): void {
+        this.vx = 0;
+        this.vy = 0;
+        this.sprite.y += this.speed;
     }
 
     play(): void {
@@ -64,34 +93,21 @@ export class MyAircraft extends Aircraft {
 
         // 発射間隔ごとに弾を発射する
         if (this.counter % this.launchInterval === 0) {
-            console.log("created");
-            const newBullet: Bullet = this.bulletFactory.createBullet(this);
-            this.bullets.push(newBullet)
-        }
-
-        // TODO MyAircraftの責務なのかは要検討
-        this.bullets.forEach(b => b.play());
-
-        // 弾の表示状態を監視
-        const disableBullets = this.bullets.filter(b => b.disable);
-        if(disableBullets.length >= 1) {
-            console.log('bullet delete')
-            disableBullets.forEach(b => this.bulletFactory.deleteBullet(b));
-            this.bullets = this.bullets.filter(b => !b.disable);
+            this.bulletFactory.createBullet(this);
         }
     }
 
     // ダメージの処理を行う
     applyDamage(): void {
         this.damageList.forEach(
-          d => {
-              this.remainingMachine -= d.getAttack();
-          }
+            d => {
+                this.remainingMachine -= d.getAttack();
+            }
         );
         // ダメージ判定処理が終了したため値を空にする
         this.damageList = new Array<DamageValue>();
 
-        if(this.remainingMachine <= 0) {
+        if (this.remainingMachine <= 0) {
             this.disable = true;
         }
     }

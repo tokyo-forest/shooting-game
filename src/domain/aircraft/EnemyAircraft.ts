@@ -21,9 +21,6 @@ export class EnemyAircraft extends Aircraft {
         this.vy = direction.vy;
     }
 
-
-
-
     play(): void {
         this.sprite.x += this.vx;
         this.sprite.y += this.vy;

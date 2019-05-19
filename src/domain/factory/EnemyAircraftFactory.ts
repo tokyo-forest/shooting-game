@@ -4,7 +4,8 @@ import BulletFactory from "./BulletFactory";
 import {EnemyAircraft} from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
 import * as PIXI from 'pixi.js'
-import {ActPattern, StraightActPattern} from "../actPattern/ActPattern";
+import {ActPattern} from "../actPattern/ActPattern";
+import {IBulletCreateObserver} from "../manager/BulletManager";
 
 /**
  * 敵機体を作成するファクトリクラス
@@ -13,9 +14,9 @@ export default class EnemyAircraftFactory extends BaseFactory {
     private bulletFactory: BulletFactory;
     private actPattern: ActPattern;
 
-    constructor(stage: PIXI.Container, actPattern: ActPattern) {
+    constructor(stage: PIXI.Container, bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
         super(stage);
-        this.bulletFactory = new EnemyBulletFactory(stage);
+        this.bulletFactory = new EnemyBulletFactory(stage, bulletCreateObserver);
         this.actPattern = actPattern;
     }
 

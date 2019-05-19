@@ -27,7 +27,7 @@ export default class Collision {
     /**
      * 衝突判定を行い、衝突時のイベントを呼ぶ
      */
-    determine(obj1: ICollisionObject, obj2: ICollisionObject): boolean {
+    static determine(obj1: ICollisionObject, obj2: ICollisionObject): boolean {
         const pos1: Position = obj1.position();
         const pos2: Position = obj2.position();
 
