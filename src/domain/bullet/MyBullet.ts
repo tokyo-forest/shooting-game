@@ -1,5 +1,6 @@
 import Sprite = PIXI.Sprite;
 import Bullet from "./Bullet";
+import {DamageValue} from "../damage/Damage";
 
 /**
  * 味方の弾の実装クラス
@@ -10,6 +11,10 @@ export default class MyBullet extends Bullet{
 
     constructor(sprite: Sprite) {
         super(sprite, MyBullet.RADIUS);
+    }
+
+    bulletDamage(): DamageValue {
+        return new DamageValue(1);
     }
 
     play(): void {
