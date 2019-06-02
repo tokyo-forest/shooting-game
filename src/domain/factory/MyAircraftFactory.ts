@@ -3,7 +3,7 @@ import MyAircraft from "../aircraft/MyAircraft";
 import MyBulletFactory from "./MyBulletFactory";
 import BulletFactory from "./BulletFactory";
 import * as PIXI from 'pixi.js'
-import {IBulletCreateObserver} from "../../managers/BulletManager";
+import {IBulletCreateObserver} from "../../controller/BulletManager";
 
 /**
  * 機体を作成するファクトリクラス

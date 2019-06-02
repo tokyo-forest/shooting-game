@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import GameManager from "./managers/GameManager";
+import GameManager from "./controller/GameManager";
 
 
 // The application will create a renderer using WebGL, if possible,

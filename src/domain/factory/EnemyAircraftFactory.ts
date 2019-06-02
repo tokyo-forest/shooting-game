@@ -5,7 +5,7 @@ import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
 import * as PIXI from 'pixi.js'
 import ActPattern from "../actPattern/ActPattern";
-import {IBulletCreateObserver} from "../../managers/BulletManager";
+import {IBulletCreateObserver} from "../../controller/BulletManager";
 
 /**
  * 敵機体を作成するファクトリクラス
