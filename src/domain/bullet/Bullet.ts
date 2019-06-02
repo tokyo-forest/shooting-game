@@ -11,6 +11,9 @@ export default abstract class Bullet extends Entity{
         super(sprite, radius);
     }
 
+    //TODO 弾の実装クラスはここを実装すること
+    abstract bulletDamage(): DamageValue;
+
     play(): void {
         this.sprite.x += this.vx;
         this.sprite.y += this.vy;
@@ -23,6 +26,6 @@ export default abstract class Bullet extends Entity{
 
     // 相手に与えるダメージを定義する
     defineDamage(): DamageValue {
-        return new DamageValue(1);
+        return this.bulletDamage();
     }
 }

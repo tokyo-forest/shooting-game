@@ -7,6 +7,14 @@ export class MovementDirection {
     }
 }
 
+export interface INextAction {
+    actPattern: ActPattern;
+    moveDirection: MovementDirection;
+
+    nextAction(): void;
+}
+
+
 export abstract class ActPattern {
     abstract nextAction(): MovementDirection;
 }

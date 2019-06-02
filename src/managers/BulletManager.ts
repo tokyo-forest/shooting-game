@@ -1,7 +1,7 @@
 /**
  * 弾を管理するオブザーバ
  */
-import Bullet from "../bullet/Bullet";
+import Bullet from "../domain/bullet/Bullet";
 import * as PIXI from 'pixi.js'
 
 export interface IBulletCreateObserver {

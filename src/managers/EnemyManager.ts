@@ -1,5 +1,5 @@
-import EnemyAircraftFactory from "../factory/EnemyAircraftFactory";
-import {Aircraft} from "../aircraft/Aircraft";
+import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
+import {Aircraft} from "../domain/aircraft/Aircraft";
 import * as PIXI from 'pixi.js'
 
 /**

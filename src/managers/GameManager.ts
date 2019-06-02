@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
-import MyAircraftFactory from "../factory/MyAircraftFactory";
-import EnemyAircraftFactory from "../factory/EnemyAircraftFactory";
-import {MyAircraft} from "../aircraft/MyAircraft";
-import KeyboardManager from "../../common/KeyboardManager";
-import {StraightActPattern} from "../actPattern/ActPattern";
-import Collision from "../collision/Collision";
-import WallCollision from "../collision/WallCollision";
+import MyAircraftFactory from "../domain/factory/MyAircraftFactory";
+import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
+import {MyAircraft} from "../domain/aircraft/MyAircraft";
+import KeyboardManager from "../common/KeyboardManager";
+import {StraightActPattern} from "../domain/actPattern/ActPattern";
+import Collision from "../domain/collision/Collision";
+import WallCollision from "../domain/collision/WallCollision";
 import BulletManager from "./BulletManager";
 import EnemyManager from "./EnemyManager";
 

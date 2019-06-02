@@ -1,7 +1,7 @@
 import BaseFactory from "./BaseFactory";
 import Bullet from "../bullet/Bullet";
 import {Aircraft} from "../aircraft/Aircraft";
-import {IBuletCreateObservable, IBulletCreateObserver} from "../manager/BulletManager";
+import {IBuletCreateObservable, IBulletCreateObserver} from "../../managers/BulletManager";
 
 export interface IcreateBullet {
     createBullet(aircraft: Aircraft) : Bullet;
