@@ -1,5 +1,5 @@
 import BaseFactory from "./BaseFactory";
-import {Aircraft} from "../aircraft/Aircraft";
+import Aircraft from "../aircraft/Aircraft";
 
 /**
  * 機体を作成するファクトリクラス

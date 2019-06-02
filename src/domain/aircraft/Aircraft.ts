@@ -4,7 +4,7 @@
 import {Entity} from "../entity/Entity";
 import BulletFactory from "../factory/BulletFactory";
 
-export abstract class Aircraft extends Entity{
+export default abstract class Aircraft extends Entity{
 
     bulletFactory: BulletFactory;
 

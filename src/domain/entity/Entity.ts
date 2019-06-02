@@ -1,16 +1,11 @@
 import Sprite = PIXI.Sprite;
-import {Position, ICollisionObject} from "../collision/Collision";
-import {DamageValue, IDamage} from "../damage/Damage";
 import {IWallCollision} from "../collision/WallCollision";
-
-
-export interface IPlay {
-    play: () => void
-}
-
-export interface INextAction {
-    nextAction: () => void
-}
+import {ICollisionObject} from "../collision/ICollisionObject";
+import IDamage from "../damage/IDamave";
+import INextAction from "./INextAction";
+import IPlay from "./IPlay";
+import DamageValue from "../valueObject/DamageValue";
+import Position from "../valueObject/Position"
 
 /**
  * 画面に表示されるオブジェクトを表す.

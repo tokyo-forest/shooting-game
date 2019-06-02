@@ -1,7 +1,7 @@
 import Sprite = PIXI.Sprite;
 import {Entity} from "../entity/Entity";
-import {ICollisionObject} from "../collision/Collision";
-import {DamageValue} from "../damage/Damage";
+import DamageValue from "../valueObject/DamageValue";
+import {ICollisionObject} from "../collision/ICollisionObject";
 
 /**
  * 弾の抽象クラス

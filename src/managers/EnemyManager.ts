@@ -1,6 +1,6 @@
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
-import {Aircraft} from "../domain/aircraft/Aircraft";
 import * as PIXI from 'pixi.js'
+import Aircraft from "../domain/aircraft/Aircraft";
 
 /**
  * 敵を管理するクラス

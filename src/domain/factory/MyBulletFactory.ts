@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import Bullet from "../bullet/Bullet";
-import {Aircraft} from "../aircraft/Aircraft";
+import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
 import MyBullet from "../bullet/MyBullet";
 

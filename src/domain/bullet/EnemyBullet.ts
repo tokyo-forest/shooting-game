@@ -1,6 +1,6 @@
 import Sprite = PIXI.Sprite;
 import Bullet from "./Bullet";
-import {DamageValue} from "../damage/Damage";
+import DamageValue from "../valueObject/DamageValue";
 
 /**
  * 敵の弾の実装クラス

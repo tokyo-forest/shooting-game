@@ -1,24 +1,5 @@
-// TODO 場所移動
-import {DamageValue, IDamage} from "../damage/Damage";
-
-export class Position {
-    public x: number;
-    public y: number;
-
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-// TODO 場所移動
-export interface ICollisionObject extends IDamage{
-    damageList: Array<DamageValue>
-    radius: number
-    // 衝突時の振る舞いを定義
-    collided(collisionObject: ICollisionObject):void;
-    position(): Position
-}
+import Position from "../valueObject/Position"
+import {ICollisionObject} from "./ICollisionObject";
 
 /**
  * 衝突判定を行う

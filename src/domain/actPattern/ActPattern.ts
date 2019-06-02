@@ -1,21 +1,7 @@
-export class MovementDirection {
-    vx: number;
-    vy: number;
-    constructor(vx: number, vy: number) {
-        this.vx = vx;
-        this.vy = vy;
-    }
-}
-
-export interface INextAction {
-    actPattern: ActPattern;
-    moveDirection: MovementDirection;
-
-    nextAction(): void;
-}
+import MovementDirection from "./MovementDirection";
 
 
-export abstract class ActPattern {
+export default abstract class ActPattern {
     abstract nextAction(): MovementDirection;
 }
 

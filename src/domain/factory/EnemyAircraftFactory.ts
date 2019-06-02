@@ -1,10 +1,10 @@
 import BaseFactory from "./BaseFactory";
-import {Aircraft} from "../aircraft/Aircraft";
+import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
-import {EnemyAircraft} from "../aircraft/EnemyAircraft";
+import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
 import * as PIXI from 'pixi.js'
-import {ActPattern} from "../actPattern/ActPattern";
+import ActPattern from "../actPattern/ActPattern";
 import {IBulletCreateObserver} from "../../managers/BulletManager";
 
 /**

@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import MyAircraftFactory from "../domain/factory/MyAircraftFactory";
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
-import {MyAircraft} from "../domain/aircraft/MyAircraft";
+import MyAircraft from "../domain/aircraft/MyAircraft";
 import KeyboardManager from "../common/KeyboardManager";
 import {StraightActPattern} from "../domain/actPattern/ActPattern";
 import Collision from "../domain/collision/Collision";

@@ -1,11 +1,11 @@
-import {Aircraft} from "./Aircraft";
+import Aircraft from "./Aircraft";
 import Bullet from "../bullet/Bullet";
 import BulletFactory from "../factory/BulletFactory";
 
 /**
  * 自機のドメインクラス.
  */
-export class MyAircraft extends Aircraft {
+export default class MyAircraft extends Aircraft {
     // 弾の発射間隔
     launchInterval: number;
 

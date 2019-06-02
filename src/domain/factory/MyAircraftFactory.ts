@@ -1,5 +1,5 @@
 import BaseFactory from "./BaseFactory";
-import {MyAircraft} from "../aircraft/MyAircraft";
+import MyAircraft from "../aircraft/MyAircraft";
 import MyBulletFactory from "./MyBulletFactory";
 import BulletFactory from "./BulletFactory";
 import * as PIXI from 'pixi.js'

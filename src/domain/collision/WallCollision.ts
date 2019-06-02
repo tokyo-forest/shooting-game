@@ -1,7 +1,8 @@
 /**
  * 壁の衝突判定を行う
  */
-import {ICollisionObject, Position} from "./Collision";
+import Position from "../valueObject/Position"
+import {ICollisionObject} from "./ICollisionObject";
 
 /**
  * 壁に衝突したときの振る舞いを定義する

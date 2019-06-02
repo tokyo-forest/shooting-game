@@ -1,12 +1,13 @@
-import {Aircraft} from "./Aircraft";
-import {ActPattern, MovementDirection} from "../actPattern/ActPattern";
+import Aircraft from "./Aircraft";
 import BulletFactory from "../factory/BulletFactory";
-import {DamageValue} from "../damage/Damage";
+import ActPattern from "../actPattern/ActPattern";
+import MovementDirection from "../actPattern/MovementDirection";
+import DamageValue from "../valueObject/DamageValue";
 
 /**
  * 敵機のドメインクラス.
  */
-export class EnemyAircraft extends Aircraft {
+export default class EnemyAircraft extends Aircraft {
 
     actPattern: ActPattern;
 
