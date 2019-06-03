@@ -4,3 +4,6 @@
 npm run build
 ```
 
+## access
+
+https://shooting-game-tokyo.netlify.com/
