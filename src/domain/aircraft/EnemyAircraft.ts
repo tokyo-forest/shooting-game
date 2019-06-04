@@ -19,8 +19,8 @@ export default class EnemyAircraft extends Aircraft {
     // 次の異動先の計算を行う
     nextAction(): void {
         const direction: MovementDirection = this.actPattern.nextAction();
-        this.vx = direction.vx;
-        this.vy = direction.vy;
+        this.velocity.vx = direction.vx;
+        this.velocity.vy = direction.vy;
     }
 
     // 相手に与えるダメージを定義する
@@ -29,7 +29,7 @@ export default class EnemyAircraft extends Aircraft {
     }
 
     play(): void {
-        this.sprite.x += this.vx;
-        this.sprite.y += this.vy;
+        this.sprite.x += this.velocity.vx;
+        this.sprite.y += this.velocity.vy;
     }
 }

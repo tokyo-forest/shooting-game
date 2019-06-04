@@ -21,7 +21,7 @@ export default class MyBulletFactory extends BulletFactory{
         sprite.y = aircraft.sprite.y;
 
         let myBullet = new MyBullet(sprite);
-        myBullet.vy = -1;
+        myBullet.velocity.vy = -1;
         this.addChildSprite(sprite);
         this.notifyBulletCreate(myBullet);
 

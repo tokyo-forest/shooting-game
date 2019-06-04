@@ -1,5 +1,5 @@
 import Position from "../../domain/valueObject/Position"
-import {Entity} from "../../domain/entity/Entity";
+import { Entity } from "../../domain/entity/Entity";
 
 /**
  * 画面描画用のオブジェクト.
@@ -7,11 +7,14 @@ import {Entity} from "../../domain/entity/Entity";
 export default class EntityView {
     private sprite: PIXI.Sprite;
 
+    private imagePath: string;
+
     private entity: Entity;
 
-    constructor(sprite: PIXI.Sprite, entity: Entity) {
+    constructor(imagePath: string, entity: Entity) {
+        this.imagePath = imagePath;
         this.entity = entity;
-        this.sprite = sprite;
+        this.sprite = PIXI.Sprite.from(imagePath);
     }
 
     /**

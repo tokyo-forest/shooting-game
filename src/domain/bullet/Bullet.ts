@@ -15,8 +15,8 @@ export default abstract class Bullet extends Entity{
     abstract bulletDamage(): DamageValue;
 
     play(): void {
-        this.sprite.x += this.vx;
-        this.sprite.y += this.vy;
+        this.sprite.x += this.velocity.vx;
+        this.sprite.y += this.velocity.vy;
     }
 
     collided(collisionObject: ICollisionObject): void {

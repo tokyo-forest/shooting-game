@@ -6,6 +6,7 @@ import INextAction from "./INextAction";
 import IPlay from "./IPlay";
 import DamageValue from "../valueObject/DamageValue";
 import Position from "../valueObject/Position"
+import Velocity from "../valueObject/Velocity";
 
 /**
  * 画面に表示されるオブジェクトを表す.
@@ -13,16 +14,14 @@ import Position from "../valueObject/Position"
 export abstract class Entity implements ICollisionObject, IDamage, IPlay, INextAction, IWallCollision {
     life: number;
     sprite: Sprite;
-    vx: number;
-    vy: number;
+    velocity: Velocity;
     disable: boolean;
     radius: number;
     damageList: Array<DamageValue>;
 
     protected constructor(sprite: PIXI.Sprite, radius: number) {
         this.sprite = sprite;
-        this.vx = 0;
-        this.vy = 0;
+        this.velocity = new Velocity(0,0);
         this.disable = false;
         this.radius = radius;
         this.damageList = new Array<DamageValue>();

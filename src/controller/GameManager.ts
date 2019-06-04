@@ -3,7 +3,7 @@ import MyAircraftFactory from "../domain/factory/MyAircraftFactory";
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
 import MyAircraft from "../domain/aircraft/MyAircraft";
 import KeyboardManager from "../common/KeyboardManager";
-import {StraightActPattern} from "../domain/actPattern/ActPattern";
+import { StraightActPattern } from "../domain/actPattern/ActPattern";
 import Collision from "../domain/collision/Collision";
 import WallCollision from "../domain/collision/WallCollision";
 import BulletManager from "./BulletManager";
@@ -79,7 +79,7 @@ export default class GameManager {
         // 弾の衝突判定を定義
         let judgeCollision = () => {
             bulletManager.bullets.forEach(mb => {
-                enemyManager.enemys.forEach( enemy => {
+                enemyManager.enemys.forEach(enemy => {
                     Collision.determine(enemy, mb);
                 })
             });
@@ -127,7 +127,7 @@ export default class GameManager {
             );
         };
 
-//Start the game loop
+        //Start the game loop
         app.ticker.add(delta => state(delta));
 
     }
