@@ -17,13 +17,12 @@ export default class MyBulletFactory extends BulletFactory{
     createBullet(aircraft: Aircraft): Bullet {
         let sprite = PIXI.Sprite.from(this.MY_BULLET_VIEW);
         sprite.anchor.set(0.5);
-        sprite.x = aircraft.sprite.x;
-        sprite.y = aircraft.sprite.y;
+        sprite.x = aircraft.position1.x;
+        sprite.y = aircraft.position1.y;
 
         let myBullet = new MyBullet(sprite);
         myBullet.velocity.vy = -1;
-        this.addChildSprite(sprite);
-        this.notifyBulletCreate(myBullet);
+        this.notifyBulletCreate(myBullet,this.MY_BULLET_VIEW);
 
         return myBullet
     }

@@ -1,15 +1,15 @@
 /**
  * 機体ドメインクラス.
  */
-import {Entity} from "../entity/Entity";
+import { Entity } from "../entity/Entity";
 import BulletFactory from "../factory/BulletFactory";
 
-export default abstract class Aircraft extends Entity{
+export default abstract class Aircraft extends Entity {
 
     bulletFactory: BulletFactory;
 
-    constructor(sprite: PIXI.Sprite, radius: number, bulletFactory: BulletFactory) {
-        super(sprite, radius);
+    constructor(radius: number, bulletFactory: BulletFactory) {
+        super(radius);
         this.bulletFactory = bulletFactory;
     }
 }

@@ -7,14 +7,27 @@ import { Entity } from "../../domain/entity/Entity";
 export default class EntityView {
     private sprite: PIXI.Sprite;
 
-    private imagePath: string;
-
     private entity: Entity;
 
     constructor(imagePath: string, entity: Entity) {
-        this.imagePath = imagePath;
         this.entity = entity;
         this.sprite = PIXI.Sprite.from(imagePath);
+    }
+
+    /**
+     * Getter $sprite
+     * @return {PIXI.Sprite}
+     */
+    public get $sprite(): PIXI.Sprite {
+        return this.sprite;
+    }
+
+    /**
+     * Getter $entity
+     * @return {Entity}
+     */
+	public get $entity(): Entity {
+		return this.entity;
     }
 
     /**

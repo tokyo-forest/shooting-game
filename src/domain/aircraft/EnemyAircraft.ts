@@ -11,8 +11,8 @@ export default class EnemyAircraft extends Aircraft {
 
     actPattern: ActPattern;
 
-    constructor(sprite: PIXI.Sprite, radius: number, bulletFactory: BulletFactory, actPattern: ActPattern) {
-        super(sprite, radius, bulletFactory);
+    constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern) {
+        super(radius, bulletFactory);
         this.actPattern = actPattern;
     }
 
@@ -29,7 +29,7 @@ export default class EnemyAircraft extends Aircraft {
     }
 
     play(): void {
-        this.sprite.x += this.velocity.vx;
-        this.sprite.y += this.velocity.vy;
+        this.position1.x += this.velocity.vx;
+        this.position1.y += this.velocity.vy;
     }
 }

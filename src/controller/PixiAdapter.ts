@@ -15,7 +15,7 @@ export default class PixiAdapter {
      *
      * @param sprite
      */
-    protected addChildSprite(sprite: PIXI.Sprite) {
+    public addChildSprite(sprite: PIXI.Sprite) {
         this.stage.addChild(sprite);
     }
 
@@ -24,7 +24,7 @@ export default class PixiAdapter {
      *
      * @param sprite
      */
-    protected removeChildSprite(sprite: PIXI.Sprite) {
+    public removeChildSprite(sprite: PIXI.Sprite) {
         this.stage.removeChild(sprite);
     }
 }

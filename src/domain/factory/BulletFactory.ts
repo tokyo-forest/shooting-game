@@ -1,46 +1,36 @@
-import BaseFactory from "./BaseFactory";
 import Bullet from "../bullet/Bullet";
 import Aircraft from "../aircraft/Aircraft";
-import {IBuletCreateObservable, IBulletCreateObserver} from "../../controller/BulletManager";
+import { IBuletCreateObservable, IBulletCreateObserver } from "../../controller/BulletManager";
+import EntityView from "../../controller/view/EntityView";
 
 export interface IcreateBullet {
-    createBullet(aircraft: Aircraft) : Bullet;
+    createBullet(aircraft: Aircraft): Bullet;
 }
-
 
 /**
  * 弾を作成するファクトリクラス
  * BulletFactory自身をinterfaceにして、createメソッドだけをもたせたい
  */
-export default abstract class BulletFactory extends BaseFactory implements IcreateBullet, IBuletCreateObservable{
+export default abstract class BulletFactory implements IcreateBullet, IBuletCreateObservable {
     createObservers: Array<IBulletCreateObserver>;
 
-    constructor(stage: PIXI.Container, observer: IBulletCreateObserver) {
-        super(stage);
+    constructor(observer: IBulletCreateObserver) {
         this.createObservers = new Array<IBulletCreateObserver>();
         this.bulletOn(observer);
     }
 
-    /**
-     * 弾を削除する
-     * @param target
-     */
-    deleteBullet(target: Bullet): void{
-        this.removeChildSprite(target.sprite);
-    }
-
     abstract createBullet(aircraft: Aircraft): Bullet
-
-
 
     bulletOn(createObserver: IBulletCreateObserver): void {
         this.createObservers.push(createObserver);
     }
 
-    notifyBulletCreate(bullet: Bullet): void {
+    // Managerクラスに知らせるメソッド
+    notifyBulletCreate(bullet: Bullet, imagePath: string): void {
         this.createObservers.forEach(
             c => {
-                c.addBullets(bullet);
+                let entityView = new EntityView(imagePath, bullet)
+                c.addBullets(entityView);
             }
         )
     }

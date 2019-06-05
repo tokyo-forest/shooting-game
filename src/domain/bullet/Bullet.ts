@@ -1,4 +1,3 @@
-import Sprite = PIXI.Sprite;
 import {Entity} from "../entity/Entity";
 import DamageValue from "../valueObject/DamageValue";
 import {ICollisionObject} from "../collision/ICollisionObject";
@@ -7,16 +6,16 @@ import {ICollisionObject} from "../collision/ICollisionObject";
  * 弾の抽象クラス
  */
 export default abstract class Bullet extends Entity{
-    constructor(sprite: PIXI.Sprite, radius: number) {
-        super(sprite, radius);
+    constructor(radius: number) {
+        super(radius);
     }
 
     //TODO 弾の実装クラスはここを実装すること
     abstract bulletDamage(): DamageValue;
 
     play(): void {
-        this.sprite.x += this.velocity.vx;
-        this.sprite.y += this.velocity.vy;
+        this.position1.x += this.velocity.vx;
+        this.position1.y += this.velocity.vy;
     }
 
     collided(collisionObject: ICollisionObject): void {
