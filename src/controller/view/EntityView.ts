@@ -14,6 +14,7 @@ export default class EntityView {
     constructor(imagePath: string, entity: Entity) {
         this.entity = entity;
         this.sprite = PIXI.Sprite.from(imagePath);
+        this.sprite.anchor.set(this.anchor);
     }
 
     /**
