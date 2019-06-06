@@ -9,6 +9,7 @@ import WallCollision from "../domain/collision/WallCollision";
 import BulletManager from "./BulletManager";
 import EnemyManager from "./EnemyManager";
 import PixiAdapter from './PixiAdapter';
+import EntityView from './view/EntityView';
 
 /**
  * ゲームマネージャクラス
@@ -25,7 +26,10 @@ export default class GameManager {
         let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter);
         app.ticker.add(delta => enemyManager.play());
 
-        let myUfo: MyAircraft = myAircraftFactory.createAircraft();
+        let myUfoEntityView: EntityView = myAircraftFactory.createAircraft();
+        pixiAdapter.addChildSprite(myUfoEntityView.$sprite);
+        // myAircraftFactoryからつくられているので、必ず下記のキャストは成功する
+        let myUfo = myUfoEntityView.$entity as MyAircraft;
 
         let keyboardManager: KeyboardManager = new KeyboardManager();
 
@@ -133,6 +137,7 @@ export default class GameManager {
         let updateSprite = (delta: any) => {
             bulletManager.bullets.forEach(b => b.update());
             enemyManager.enemys.forEach(b => b.update());
+            myUfoEntityView.update();
         }
 
         app.ticker.add(delta => updateSprite(delta));
