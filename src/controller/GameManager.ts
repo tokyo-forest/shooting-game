@@ -16,10 +16,10 @@ import PixiAdapter from './PixiAdapter';
 export default class GameManager {
     static createGame(app: PIXI.Application) {
         const pixiAdapter: PixiAdapter = new PixiAdapter(app.stage);
-        let bulletManager: BulletManager = new BulletManager(pixiAdapter);
 
+        let bulletManager: BulletManager = new BulletManager(pixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
-        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory( bulletManager, new StraightActPattern());
+        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern());
 
         // 敵の管理クラスの設定
         let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter);
@@ -129,6 +129,13 @@ export default class GameManager {
 
         //Start the game loop
         app.ticker.add(delta => state(delta));
+
+        let updateSprite = (delta: any) => {
+            bulletManager.bullets.forEach(b => b.update());
+            enemyManager.enemys.forEach(b => b.update());
+        }
+
+        app.ticker.add(delta => updateSprite(delta));
 
     }
 }

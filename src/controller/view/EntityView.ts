@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import { Entity } from "../../domain/entity/Entity";
 
 /**
@@ -25,8 +26,8 @@ export default class EntityView {
      * Getter $entity
      * @return {Entity}
      */
-	public get $entity(): Entity {
-		return this.entity;
+    public get $entity(): Entity {
+        return this.entity;
     }
 
     /**

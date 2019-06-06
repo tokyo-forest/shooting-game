@@ -1,4 +1,3 @@
-import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
 import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
