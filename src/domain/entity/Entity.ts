@@ -1,4 +1,3 @@
-import Sprite = PIXI.Sprite;
 import {IWallCollision} from "../collision/WallCollision";
 import {ICollisionObject} from "../collision/ICollisionObject";
 import IDamage from "../damage/IDamave";
