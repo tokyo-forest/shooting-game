@@ -8,22 +8,22 @@ import Collision from "../domain/collision/Collision";
 import WallCollision from "../domain/collision/WallCollision";
 import BulletManager from "./BulletManager";
 import EnemyManager from "./EnemyManager";
+import PixiAdapter from './PixiAdapter';
 
 /**
  * ゲームマネージャクラス
  */
 export default class GameManager {
     static createGame(app: PIXI.Application) {
-        let bulletManager: BulletManager = new BulletManager(app.stage);
+        const pixiAdapter: PixiAdapter = new PixiAdapter(app.stage);
+        let bulletManager: BulletManager = new BulletManager(pixiAdapter);
 
-        let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(app.stage, bulletManager);
-        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage, bulletManager, new StraightActPattern());
+        let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
+        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory( bulletManager, new StraightActPattern());
 
         // 敵の管理クラスの設定
-        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, app.stage);
+        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter);
         app.ticker.add(delta => enemyManager.play());
-
-        // let enemyAircraftFactory2: EnemyAircraftFactory = new EnemyAircraftFactory(app.stage, new XXXXXActPattern());
 
         let myUfo: MyAircraft = myAircraftFactory.createAircraft();
 
@@ -68,10 +68,10 @@ export default class GameManager {
         let actNext = () => {
             myUfo.nextAction();
             bulletManager.bullets.forEach(
-                b => b.nextAction()
+                b => b.$entity.nextAction()
             );
             enemyManager.enemys.forEach(
-                e => e.nextAction()
+                e => e.$entity.nextAction()
             );
         };
         app.ticker.add(delta => actNext());
@@ -80,7 +80,7 @@ export default class GameManager {
         let judgeCollision = () => {
             bulletManager.bullets.forEach(mb => {
                 enemyManager.enemys.forEach(enemy => {
-                    Collision.determine(enemy, mb);
+                    Collision.determine(enemy.$entity, mb.$entity);
                 })
             });
         };
@@ -91,10 +91,10 @@ export default class GameManager {
         let judgeWallCollision = () => {
             wallCollision.determine(myUfo);
             bulletManager.bullets.forEach(mb => {
-                wallCollision.determine(mb);
+                wallCollision.determine(mb.$entity);
             });
             enemyManager.enemys.forEach(enemy => {
-                wallCollision.determine(enemy);
+                wallCollision.determine(enemy.$entity);
             });
         };
         app.ticker.add(delta => judgeWallCollision());
@@ -103,10 +103,10 @@ export default class GameManager {
         let applyDamage = () => {
             myUfo.applyDamage();
             bulletManager.bullets.forEach(
-                b => b.applyDamage()
+                b => b.$entity.applyDamage()
             );
             enemyManager.enemys.forEach(
-                e => e.applyDamage()
+                e => e.$entity.applyDamage()
             );
         };
         app.ticker.add(delta => applyDamage());
@@ -120,10 +120,10 @@ export default class GameManager {
         let state = (delta: any) => {
             myUfo.play();
             bulletManager.bullets.forEach(
-                b => b.play()
+                b => b.$entity.play()
             );
             enemyManager.enemys.forEach(
-                e => e.play()
+                e => e.$entity.play()
             );
         };
 

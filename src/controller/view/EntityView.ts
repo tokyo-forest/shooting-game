@@ -1,4 +1,3 @@
-import Position from "../../domain/valueObject/Position"
 import { Entity } from "../../domain/entity/Entity";
 
 /**

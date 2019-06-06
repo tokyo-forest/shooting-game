@@ -9,7 +9,7 @@ import {IBulletCreateObserver} from "../../controller/BulletManager";
 export default class MyAircraftFactory {
     private bulletFactory: BulletFactory;
 
-    constructor( bulletCreateObserver: IBulletCreateObserver) {
+    constructor(bulletCreateObserver: IBulletCreateObserver) {
         this.bulletFactory = new MyBulletFactory(bulletCreateObserver);
     }
 

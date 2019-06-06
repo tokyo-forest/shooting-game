@@ -2,7 +2,6 @@
  * 弾を管理するオブザーバ
  */
 import Bullet from "../domain/bullet/Bullet";
-import * as PIXI from 'pixi.js'
 import PixiAdapter from "./PixiAdapter";
 import EntityView from "./view/EntityView";
 
