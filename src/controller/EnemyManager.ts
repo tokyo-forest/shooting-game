@@ -34,6 +34,7 @@ export default class EnemyManager {
             let entityView: EntityView = this.enemyAircraftFactory.createAircraft();
             // TODO: ここの20,400もここには書きたくない
             this.enemys.push(entityView);
+            this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.nextCreateTimer += this.getRandomNumberWithRange(1, this.frequencyOfAppearance)
         }
     }
