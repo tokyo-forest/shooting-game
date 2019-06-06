@@ -1,5 +1,5 @@
-import Position from "../../domain/valueObject/Position"
-import {Entity} from "../../domain/entity/Entity";
+import * as PIXI from 'pixi.js'
+import { Entity } from "../../domain/entity/Entity";
 
 /**
  * 画面描画用のオブジェクト.
@@ -9,9 +9,28 @@ export default class EntityView {
 
     private entity: Entity;
 
-    constructor(sprite: PIXI.Sprite, entity: Entity) {
+    private anchor: number = 0.5;
+
+    constructor(imagePath: string, entity: Entity) {
         this.entity = entity;
-        this.sprite = sprite;
+        this.sprite = PIXI.Sprite.from(imagePath);
+        this.sprite.anchor.set(this.anchor);
+    }
+
+    /**
+     * Getter $sprite
+     * @return {PIXI.Sprite}
+     */
+    public get $sprite(): PIXI.Sprite {
+        return this.sprite;
+    }
+
+    /**
+     * Getter $entity
+     * @return {Entity}
+     */
+    public get $entity(): Entity {
+        return this.entity;
     }
 
     /**

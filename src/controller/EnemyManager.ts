@@ -1,61 +1,57 @@
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
-import * as PIXI from 'pixi.js'
-import Aircraft from "../domain/aircraft/Aircraft";
+import PixiAdapter from "./PixiAdapter";
+import EntityView from "./view/EntityView";
 
 /**
  * 敵を管理するクラス
  */
 export default class EnemyManager {
-    stage: PIXI.Container;
 
     enemyAircraftFactory: EnemyAircraftFactory;
     timer: number;
     nextCreateTimer: number;
+    pixiAdapter: PixiAdapter;
 
 
     // 敵の出現頻度
     frequencyOfAppearance: number;
 
-    enemys: Array<Aircraft>;
+    enemys: Array<EntityView>;
 
-    constructor(enemyAircraftFactory: EnemyAircraftFactory, stage: PIXI.Container) {
+    constructor(enemyAircraftFactory: EnemyAircraftFactory, pixiAdapter: PixiAdapter) {
         this.enemyAircraftFactory = enemyAircraftFactory;
         this.timer = 0;
         this.frequencyOfAppearance = 20;
         this.nextCreateTimer = this.getRandomNumberWithRange(this.frequencyOfAppearance, 1);
-        this.enemys = new Array<Aircraft>();
-        this.stage = stage;
+        this.pixiAdapter = pixiAdapter;
+        this.enemys = new Array<EntityView>();
     }
 
     play() {
         this.timer++;
 
         if (this.timer >= this.nextCreateTimer) {
-            let newEnemy: Aircraft= this.enemyAircraftFactory.createAircraft();
-            newEnemy.sprite.x = this.getRandomNumberWithRange(20, 400);
-            newEnemy.sprite.y = 20;
-            this.enemys.push(newEnemy);
+            let entityView: EntityView = this.enemyAircraftFactory.createAircraft();
+            // TODO: ここの20,400もここには書きたくない
+            this.enemys.push(entityView);
+            this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.nextCreateTimer += this.getRandomNumberWithRange(1, this.frequencyOfAppearance)
         }
     }
 
 
-    // 弾の表示ステータス監視を行う
+    // 敵の表示ステータス監視を行う
     observeEnemyDisable(): void {
-        const disableEnemys = this.enemys.filter(b => b.disable);
+        const disableEnemys = this.enemys.filter(b => b.$entity.disable);
         if (disableEnemys.length >= 1) {
-            disableEnemys.forEach(e => this.stage.removeChild(e.sprite));
-            this.enemys = this.enemys.filter(b => !b.disable);
+            disableEnemys.forEach(e => this.pixiAdapter.removeChildSprite(e.$sprite));
+            this.enemys = this.enemys.filter(b => !b.$entity.disable);
         }
     }
 
     // Util的な場所に移動する
     private getRandomNumberWithRange(max: number, min: number): number {
         return Math.floor(Math.random() * (max + 1 - min)) + min;
-    }
-
-    private getRandomNumber(max: number): number {
-        return this.getRandomNumberWithRange(max, 0);
     }
 
 }

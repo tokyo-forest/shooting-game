@@ -1,22 +1,19 @@
-import BaseFactory from "./BaseFactory";
-import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
 import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
-import * as PIXI from 'pixi.js'
 import ActPattern from "../actPattern/ActPattern";
-import {IBulletCreateObserver} from "../../controller/BulletManager";
+import { IBulletCreateObserver } from "../../controller/BulletManager";
+import EntityView from "../../controller/view/EntityView";
 
 /**
  * 敵機体を作成するファクトリクラス
  */
-export default class EnemyAircraftFactory extends BaseFactory {
+export default class EnemyAircraftFactory {
     private bulletFactory: BulletFactory;
     private actPattern: ActPattern;
 
-    constructor(stage: PIXI.Container, bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
-        super(stage);
-        this.bulletFactory = new EnemyBulletFactory(stage, bulletCreateObserver);
+    constructor(bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
+        this.bulletFactory = new EnemyBulletFactory(bulletCreateObserver);
         this.actPattern = actPattern;
     }
 
@@ -26,14 +23,20 @@ export default class EnemyAircraftFactory extends BaseFactory {
     // 敵機の判定範囲
     private ENEMY_AIRCRAFT_RADIUS: number = 10;
 
-    public createAircraft(): Aircraft {
-        let sprite = PIXI.Sprite.from(this.ENEMY_AIRCRAFT_VIEW);
-        sprite.anchor.set(0.5);
-        this.addChildSprite(sprite);
-        return new EnemyAircraft(sprite,
-            this.ENEMY_AIRCRAFT_RADIUS,
-            this.bulletFactory,
-            this.actPattern
-        );
+    public createAircraft(): EntityView {
+        let newEnemy = new EnemyAircraft(this.ENEMY_AIRCRAFT_RADIUS, this.bulletFactory, this.actPattern);
+        newEnemy.position1.x = this.getRandomNumberWithRange(20, 400);
+        newEnemy.position1.y = 20;
+
+        return new EntityView(this.ENEMY_AIRCRAFT_VIEW, newEnemy);
+    }
+
+    private getRandomNumber(max: number): number {
+        return this.getRandomNumberWithRange(max, 0);
+    }
+
+    // Util的な場所に移動する
+    private getRandomNumberWithRange(max: number, min: number): number {
+        return Math.floor(Math.random() * (max + 1 - min)) + min;
     }
 }

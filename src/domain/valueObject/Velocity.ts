@@ -1,5 +1,5 @@
 /**
- * 加速度を保持する.
+ * 速度を保持する.
  */
 export default class Velocity {
     public vx: number;

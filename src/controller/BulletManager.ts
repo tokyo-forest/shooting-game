@@ -2,11 +2,12 @@
  * 弾を管理するオブザーバ
  */
 import Bullet from "../domain/bullet/Bullet";
-import * as PIXI from 'pixi.js'
+import PixiAdapter from "./PixiAdapter";
+import EntityView from "./view/EntityView";
 
 export interface IBulletCreateObserver {
     // 弾を追加する
-    addBullets(bullet: Bullet): void;
+    addBullets(entityView: EntityView): void;
 }
 
 /**
@@ -18,31 +19,33 @@ export interface IBuletCreateObservable {
     bulletOn(createObserver: IBulletCreateObserver): void;
 
     // Observerへの通知を行う
-    notifyBulletCreate(bullet: Bullet): void;
+    notifyBulletCreate(bullet: Bullet,imagePath: string): void;
 }
 
 /**
  * ゲーム画面上の弾を管理するマネージャークラス
  */
 export default class BulletManager implements IBulletCreateObserver {
-    bullets: Array<Bullet>;
-    stage: PIXI.Container;
+    // TODO:EntityView に型変数取るのはありかもしれぬ
+    bullets: Array<EntityView>;
+    pixiAdapter: PixiAdapter;
 
-    constructor(stage: PIXI.Container) {
-        this.bullets = new Array<Bullet>();
-        this.stage = stage;
+    constructor(pixiAdapter: PixiAdapter) {
+        this.pixiAdapter = pixiAdapter;
+        this.bullets = new Array<EntityView>();
     }
 
-    addBullets(bullet: Bullet): void {
-            this.bullets.push(bullet);
+    addBullets(entityView: EntityView): void {
+            this.pixiAdapter.addChildSprite(entityView.$sprite);
+            this.bullets.push(entityView);
     }
 
     // 弾の表示ステータス監視を行う
     observeBulletDisable(): void {
-        const disableBullets = this.bullets.filter(b => b.disable);
+        const disableBullets = this.bullets.filter(b => b.$entity.disable);
         if (disableBullets.length >= 1) {
-            disableBullets.forEach(b => this.stage.removeChild(b.sprite));
-            this.bullets = this.bullets.filter(b => !b.disable);
+            disableBullets.forEach(b => this.pixiAdapter.removeChildSprite(b.$sprite));
+            this.bullets = this.bullets.filter(b => !b.$entity.disable);
         }
     }
 

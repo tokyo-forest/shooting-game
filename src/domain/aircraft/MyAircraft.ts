@@ -16,8 +16,8 @@ export default class MyAircraft extends Aircraft {
     // 移動速度
     speed: number;
 
-    constructor(sprite: PIXI.Sprite, radius: number, launchInterval: number, bulletFactory: BulletFactory) {
-        super(sprite, radius, bulletFactory);
+    constructor( radius: number, launchInterval: number, bulletFactory: BulletFactory) {
+        super(radius, bulletFactory);
         this.bullets = new Array<Bullet>();
         this.launchInterval = launchInterval;
         this.counter = 0;
@@ -26,65 +26,65 @@ export default class MyAircraft extends Aircraft {
     }
 
     moveLeft(): void {
-        this.vx = -1 * this.speed;
+        this.velocity.vx = -1 * this.speed;
     }
 
     stopLeft(): void {
-        this.vx = 0;
+        this.velocity.vx = 0;
     }
 
     moveUp(): void {
-        this.vy = -1 * this.speed;
+        this.velocity.vy = -1 * this.speed;
     }
 
     stopUp(): void {
-        this.vy = 0;
+        this.velocity.vy = 0;
     }
 
     moveRight(): void {
-        this.vx = this.speed;
+        this.velocity.vx = this.speed;
     }
 
     stopRight(): void {
-        this.vx = 0;
+        this.velocity.vx = 0;
     }
 
     moveDown(): void {
-        this.vy = this.speed;
+        this.velocity.vy = this.speed;
     }
 
     stopDown(): void {
-        this.vy = 0;
+        this.velocity.vy = 0;
     }
 
     // 壁への衝突時の振る舞いを定義
     collidedWallDown(): void {
-        this.vx = 0;
-        this.vy = 0;
-        this.sprite.y -= this.speed;
+        this.velocity.vx = 0;
+        this.velocity.vy = 0;
+        this.position1.y -= this.speed;
     }
 
     collidedWallLeft(): void {
-        this.vx = 0;
-        this.vy = 0;
-        this.sprite.x += this.speed;
+        this.velocity.vx = 0;
+        this.velocity.vy = 0;
+        this.position1.x += this.speed;
     }
 
     collidedWallRight(): void {
-        this.vx = 0;
-        this.vy = 0;
-        this.sprite.x -= this.speed;
+        this.velocity.vx = 0;
+        this.velocity.vy = 0;
+        this.position1.x -= this.speed;
     }
 
     collidedWallUp(): void {
-        this.vx = 0;
-        this.vy = 0;
-        this.sprite.y += this.speed;
+        this.velocity.vx = 0;
+        this.velocity.vy = 0;
+        this.position1.y += this.speed;
     }
 
     play(): void {
-        this.sprite.x += this.vx;
-        this.sprite.y += this.vy;
+        this.position1.x += this.velocity.vx;
+        this.position1.y += this.velocity.vy;
         this.counter++;
 
         // 発射間隔ごとに弾を発射する

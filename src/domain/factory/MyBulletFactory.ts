@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js'
 import Bullet from "../bullet/Bullet";
 import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
@@ -15,15 +14,13 @@ export default class MyBulletFactory extends BulletFactory{
      * 自機の弾を作成する
      */
     createBullet(aircraft: Aircraft): Bullet {
-        let sprite = PIXI.Sprite.from(this.MY_BULLET_VIEW);
-        sprite.anchor.set(0.5);
-        sprite.x = aircraft.sprite.x;
-        sprite.y = aircraft.sprite.y;
+        let myBullet = new MyBullet();
+        // TODO:anchorの設定どこにおくか 
+        myBullet.position1.x = aircraft.position1.x;
+        myBullet.position1.y = aircraft.position1.y;
 
-        let myBullet = new MyBullet(sprite);
-        myBullet.vy = -1;
-        this.addChildSprite(sprite);
-        this.notifyBulletCreate(myBullet);
+        myBullet.velocity.vy = -1;
+        this.notifyBulletCreate(myBullet,this.MY_BULLET_VIEW);
 
         return myBullet
     }

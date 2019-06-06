@@ -1,19 +1,17 @@
-import BaseFactory from "./BaseFactory";
 import MyAircraft from "../aircraft/MyAircraft";
 import MyBulletFactory from "./MyBulletFactory";
 import BulletFactory from "./BulletFactory";
-import * as PIXI from 'pixi.js'
-import {IBulletCreateObserver} from "../../controller/BulletManager";
+import { IBulletCreateObserver } from "../../controller/BulletManager";
+import EntityView from "../../controller/view/EntityView";
 
 /**
  * 機体を作成するファクトリクラス
  */
-export default class MyAircraftFactory extends BaseFactory {
+export default class MyAircraftFactory {
     private bulletFactory: BulletFactory;
 
-    constructor(stage: PIXI.Container, bulletCreateObserver: IBulletCreateObserver) {
-        super(stage);
-        this.bulletFactory = new MyBulletFactory(stage, bulletCreateObserver);
+    constructor(bulletCreateObserver: IBulletCreateObserver) {
+        this.bulletFactory = new MyBulletFactory(bulletCreateObserver);
     }
 
     // 自機の画像
@@ -26,17 +24,15 @@ export default class MyAircraftFactory extends BaseFactory {
     DEFAULT_POS_X: number = 100;
     DEFAULT_POS_Y: number = 100;
 
-    createAircraft(): MyAircraft {
-        let sprite = PIXI.Sprite.from(this.MY_AIRCRAFT_VIEW);
-        sprite.anchor.set(0.5);
-        sprite.x = this.DEFAULT_POS_X;
-        sprite.y = this.DEFAULT_POS_Y;
-        this.addChildSprite(sprite);
-        let myAircraft: MyAircraft = new MyAircraft(sprite,
+    createAircraft(): EntityView {
+        let myAircraft: MyAircraft = new MyAircraft(
             this.MY_AIRCRAFT_RADIUS,
             this.MY_AIRCRAFT_LAUNCH_INTERVAL,
             this.bulletFactory);
+        // TODO:anchorを設定せねば
+        myAircraft.position1.x = this.DEFAULT_POS_X;
+        myAircraft.position1.y = this.DEFAULT_POS_Y;
 
-        return myAircraft;
+        return new EntityView(this.MY_AIRCRAFT_VIEW, myAircraft);
     }
 }
