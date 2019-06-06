@@ -9,6 +9,8 @@ export default class EntityView {
 
     private entity: Entity;
 
+    private anchor: number = 0.5;
+
     constructor(imagePath: string, entity: Entity) {
         this.entity = entity;
         this.sprite = PIXI.Sprite.from(imagePath);

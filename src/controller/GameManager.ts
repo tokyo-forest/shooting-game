@@ -24,6 +24,7 @@ export default class GameManager {
 
         // 敵の管理クラスの設定
         let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter);
+        // TODO MyAircraftManagerも欲しいところ
         app.ticker.add(delta => enemyManager.play());
 
         let myUfoEntityView: EntityView = myAircraftFactory.createAircraft();
