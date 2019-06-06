@@ -15,12 +15,9 @@ export default class EnemyBulletFactory extends BulletFactory{
      * 敵機の弾を作成する
      */
     createBullet(aircraft: Aircraft): Bullet {
-        let sprite = PIXI.Sprite.from(this.ENEMY_BULLET_VIEW);
-        sprite.anchor.set(0.5);
-        this.addChildSprite(sprite);
+        const enemyBullet: EnemyBullet = new EnemyBullet();
 
-        const enemyBullet: EnemyBullet = new EnemyBullet(sprite);
-        this.notifyBulletCreate(enemyBullet);
+        this.notifyBulletCreate(enemyBullet,this.ENEMY_BULLET_VIEW);
         return enemyBullet;
     }
 }

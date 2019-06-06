@@ -1,22 +1,19 @@
-import BaseFactory from "./BaseFactory";
 import Aircraft from "../aircraft/Aircraft";
 import BulletFactory from "./BulletFactory";
 import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
-import * as PIXI from 'pixi.js'
 import ActPattern from "../actPattern/ActPattern";
-import {IBulletCreateObserver} from "../../controller/BulletManager";
+import { IBulletCreateObserver } from "../../controller/BulletManager";
 
 /**
  * 敵機体を作成するファクトリクラス
  */
-export default class EnemyAircraftFactory extends BaseFactory {
+export default class EnemyAircraftFactory {
     private bulletFactory: BulletFactory;
     private actPattern: ActPattern;
 
-    constructor(stage: PIXI.Container, bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
-        super(stage);
-        this.bulletFactory = new EnemyBulletFactory(stage, bulletCreateObserver);
+    constructor(bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
+        this.bulletFactory = new EnemyBulletFactory(bulletCreateObserver);
         this.actPattern = actPattern;
     }
 
@@ -27,10 +24,7 @@ export default class EnemyAircraftFactory extends BaseFactory {
     private ENEMY_AIRCRAFT_RADIUS: number = 10;
 
     public createAircraft(): Aircraft {
-        let sprite = PIXI.Sprite.from(this.ENEMY_AIRCRAFT_VIEW);
-        sprite.anchor.set(0.5);
-        this.addChildSprite(sprite);
-        return new EnemyAircraft(sprite,
+        return new EnemyAircraft(
             this.ENEMY_AIRCRAFT_RADIUS,
             this.bulletFactory,
             this.actPattern

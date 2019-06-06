@@ -16,8 +16,8 @@ export default class MyAircraft extends Aircraft {
     // 移動速度
     speed: number;
 
-    constructor(sprite: PIXI.Sprite, radius: number, launchInterval: number, bulletFactory: BulletFactory) {
-        super(sprite, radius, bulletFactory);
+    constructor( radius: number, launchInterval: number, bulletFactory: BulletFactory) {
+        super(radius, bulletFactory);
         this.bullets = new Array<Bullet>();
         this.launchInterval = launchInterval;
         this.counter = 0;
@@ -61,30 +61,30 @@ export default class MyAircraft extends Aircraft {
     collidedWallDown(): void {
         this.velocity.vx = 0;
         this.velocity.vy = 0;
-        this.sprite.y -= this.speed;
+        this.position1.y -= this.speed;
     }
 
     collidedWallLeft(): void {
         this.velocity.vx = 0;
         this.velocity.vy = 0;
-        this.sprite.x += this.speed;
+        this.position1.x += this.speed;
     }
 
     collidedWallRight(): void {
         this.velocity.vx = 0;
         this.velocity.vy = 0;
-        this.sprite.x -= this.speed;
+        this.position1.x -= this.speed;
     }
 
     collidedWallUp(): void {
         this.velocity.vx = 0;
         this.velocity.vy = 0;
-        this.sprite.y += this.speed;
+        this.position1.y += this.speed;
     }
 
     play(): void {
-        this.sprite.x += this.velocity.vx;
-        this.sprite.y += this.velocity.vy;
+        this.position1.x += this.velocity.vx;
+        this.position1.y += this.velocity.vy;
         this.counter++;
 
         // 発射間隔ごとに弾を発射する

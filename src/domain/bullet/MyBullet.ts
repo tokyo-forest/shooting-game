@@ -1,4 +1,3 @@
-import Sprite = PIXI.Sprite;
 import Bullet from "./Bullet";
 import DamageValue from "../valueObject/DamageValue";
 
@@ -9,8 +8,8 @@ export default class MyBullet extends Bullet{
     // 半径
     static RADIUS: number = 10;
 
-    constructor(sprite: Sprite) {
-        super(sprite, MyBullet.RADIUS);
+    constructor() {
+        super(MyBullet.RADIUS);
     }
 
     bulletDamage(): DamageValue {
