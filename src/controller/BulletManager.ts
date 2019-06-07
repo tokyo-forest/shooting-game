@@ -7,7 +7,7 @@ import EntityView from "./view/EntityView";
 
 export interface IBulletCreateObserver {
     // 弾を追加する
-    addBullets(entityView: EntityView): void;
+    addBullets(entityView: EntityView<Bullet>): void;
 }
 
 /**
@@ -27,15 +27,15 @@ export interface IBuletCreateObservable {
  */
 export default class BulletManager implements IBulletCreateObserver {
     // TODO:EntityView に型変数取るのはありかもしれぬ
-    bullets: Array<EntityView>;
+    bullets: Array<EntityView<Bullet>>;
     pixiAdapter: PixiAdapter;
 
     constructor(pixiAdapter: PixiAdapter) {
         this.pixiAdapter = pixiAdapter;
-        this.bullets = new Array<EntityView>();
+        this.bullets = new Array<EntityView<Bullet>>();
     }
 
-    addBullets(entityView: EntityView): void {
+    addBullets(entityView: EntityView<Bullet>): void {
             this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.bullets.push(entityView);
     }

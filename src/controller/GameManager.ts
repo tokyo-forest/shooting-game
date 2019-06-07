@@ -27,7 +27,7 @@ export default class GameManager {
         // TODO MyAircraftManagerも欲しいところ
         app.ticker.add(delta => enemyManager.play());
 
-        let myUfoEntityView: EntityView = myAircraftFactory.createAircraft();
+        let myUfoEntityView: EntityView<MyAircraft> = myAircraftFactory.createAircraft();
         pixiAdapter.addChildSprite(myUfoEntityView.$sprite);
         // myAircraftFactoryからつくられているので、必ず下記のキャストは成功する
         let myUfo = myUfoEntityView.$entity as MyAircraft;
@@ -107,9 +107,6 @@ export default class GameManager {
         // ダメージの解決
         let applyDamage = () => {
             myUfo.applyDamage();
-            bulletManager.bullets.forEach(
-                b => b.$entity.applyDamage()
-            );
             enemyManager.enemys.forEach(
                 e => e.$entity.applyDamage()
             );

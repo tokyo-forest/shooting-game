@@ -1,6 +1,7 @@
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
 import PixiAdapter from "./PixiAdapter";
 import EntityView from "./view/EntityView";
+import EnemyAircraft from "../domain/aircraft/EnemyAircraft";
 
 /**
  * 敵を管理するクラス
@@ -16,7 +17,7 @@ export default class EnemyManager {
     // 敵の出現頻度
     frequencyOfAppearance: number;
 
-    enemys: Array<EntityView>;
+    enemys: Array<EntityView<EnemyAircraft>>;
 
     constructor(enemyAircraftFactory: EnemyAircraftFactory, pixiAdapter: PixiAdapter) {
         this.enemyAircraftFactory = enemyAircraftFactory;
@@ -24,14 +25,14 @@ export default class EnemyManager {
         this.frequencyOfAppearance = 20;
         this.nextCreateTimer = this.getRandomNumberWithRange(this.frequencyOfAppearance, 1);
         this.pixiAdapter = pixiAdapter;
-        this.enemys = new Array<EntityView>();
+        this.enemys = new Array<EntityView<EnemyAircraft>>();
     }
 
     play() {
         this.timer++;
 
         if (this.timer >= this.nextCreateTimer) {
-            let entityView: EntityView = this.enemyAircraftFactory.createAircraft();
+            let entityView: EntityView<EnemyAircraft> = this.enemyAircraftFactory.createAircraft();
             // TODO: ここの20,400もここには書きたくない
             this.enemys.push(entityView);
             this.pixiAdapter.addChildSprite(entityView.$sprite);

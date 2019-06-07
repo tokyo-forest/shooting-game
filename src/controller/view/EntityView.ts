@@ -4,14 +4,14 @@ import { Entity } from "../../domain/entity/Entity";
 /**
  * 画面描画用のオブジェクト.
  */
-export default class EntityView {
+export default class EntityView<T extends Entity> {
     private sprite: PIXI.Sprite;
 
-    private entity: Entity;
+    private entity: T;
 
     private anchor: number = 0.5;
 
-    constructor(imagePath: string, entity: Entity) {
+    constructor(imagePath: string, entity: T) {
         this.entity = entity;
         this.sprite = PIXI.Sprite.from(imagePath);
         this.sprite.anchor.set(this.anchor);
@@ -29,7 +29,7 @@ export default class EntityView {
      * Getter $entity
      * @return {Entity}
      */
-    public get $entity(): Entity {
+    public get $entity(): T {
         return this.entity;
     }
 
