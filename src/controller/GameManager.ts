@@ -3,13 +3,14 @@ import MyAircraftFactory from "../domain/factory/MyAircraftFactory";
 import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
 import MyAircraft from "../domain/aircraft/MyAircraft";
 import KeyboardManager from "../common/KeyboardManager";
-import { StraightActPattern } from "../domain/actPattern/ActPattern";
+import {StraightActPattern} from "../domain/actPattern/ActPattern";
 import Collision from "../domain/collision/Collision";
 import WallCollision from "../domain/collision/WallCollision";
 import BulletManager from "./BulletManager";
 import EnemyManager from "./EnemyManager";
 import PixiAdapter from './PixiAdapter';
 import EntityView from './view/EntityView';
+import ScoreManager from "./ScoreManager";
 
 /**
  * ゲームマネージャクラス
@@ -21,9 +22,10 @@ export default class GameManager {
         let bulletManager: BulletManager = new BulletManager(pixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
         let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern());
+        let scoreManager: ScoreManager = new ScoreManager(pixiAdapter);
 
         // 敵の管理クラスの設定
-        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter);
+        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter, scoreManager);
         // TODO MyAircraftManagerも欲しいところ
         app.ticker.add(delta => enemyManager.play());
 
@@ -116,7 +118,7 @@ export default class GameManager {
         // 弾の状態監視を定義
         app.ticker.add(delta => bulletManager.observeBulletDisable());
         // 敵の状態監視
-        app.ticker.add(delta => enemyManager.observeEnemyDisable())
+        app.ticker.add(delta => enemyManager.observeEnemyDisable());
 
         // 移動処理を定義
         let state = (delta: any) => {

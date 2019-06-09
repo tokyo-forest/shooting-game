@@ -23,8 +23,10 @@ export default class EnemyAircraftFactory {
     // 敵機の判定範囲
     private ENEMY_AIRCRAFT_RADIUS: number = 10;
 
+    private ENEMY_SCORE: number = 100;
+
     public createAircraft(): EntityView<EnemyAircraft> {
-        let newEnemy = new EnemyAircraft(this.ENEMY_AIRCRAFT_RADIUS, this.bulletFactory, this.actPattern);
+        let newEnemy = new EnemyAircraft(this.ENEMY_AIRCRAFT_RADIUS, this.bulletFactory, this.actPattern, this.ENEMY_SCORE);
         newEnemy.position1.x = this.getRandomNumberWithRange(20, 400);
         newEnemy.position1.y = 20;
 

@@ -11,8 +11,9 @@ export default class EnemyAircraft extends Aircraft {
 
     actPattern: ActPattern;
 
-    constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern) {
+    constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern, score: number) {
         super(radius, bulletFactory);
+        this.score = score;
         this.actPattern = actPattern;
     }
 

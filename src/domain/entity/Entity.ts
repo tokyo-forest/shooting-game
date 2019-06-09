@@ -1,5 +1,5 @@
-import { IWallCollision } from "../collision/WallCollision";
-import { ICollisionObject } from "../collision/ICollisionObject";
+import {IWallCollision} from "../collision/WallCollision";
+import {ICollisionObject} from "../collision/ICollisionObject";
 import INextAction from "./INextAction";
 import IPlay from "./IPlay";
 import DamageValue from "../valueObject/DamageValue";
@@ -15,6 +15,7 @@ export abstract class Entity implements ICollisionObject, IPlay, INextAction, IW
     disable: boolean;
     radius: number;
     damageList: Array<DamageValue>;
+    score: number;
 
     protected constructor(radius: number) {
         this.velocity = new Velocity(0, 0);
@@ -22,6 +23,7 @@ export abstract class Entity implements ICollisionObject, IPlay, INextAction, IW
         this.disable = false;
         this.radius = radius;
         this.damageList = new Array<DamageValue>();
+        this.score = 0;
     }
 
     // 移動を行う
@@ -50,15 +52,22 @@ export abstract class Entity implements ICollisionObject, IPlay, INextAction, IW
 
     // 壁への衝突時の振る舞いを定義
     collidedWallDown(): void {
+        this.score = 0;
         this.disable = true;
     }
+
     collidedWallLeft(): void {
+        this.score = 0;
         this.disable = true;
     }
+
     collidedWallRight(): void {
+        this.score = 0;
         this.disable = true;
     }
+
     collidedWallUp(): void {
+        this.score = 0;
         this.disable = true;
     }
 }
