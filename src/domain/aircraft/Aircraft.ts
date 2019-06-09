@@ -27,7 +27,9 @@ export default abstract class Aircraft extends Entity implements IDamage {
         this.damageList = new Array<DamageValue>();
 
         if (this.life <= 0) {
-            this.disable = true;
+            this.die();
         }
     }
+
+    abstract die(): void;
 }

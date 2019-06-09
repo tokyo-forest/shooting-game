@@ -39,6 +39,11 @@ export default class EnemyAircraft extends Aircraft {
         this.bulletFactory.createBullet(this);
     }
 
+    // 消滅するときの挙動
+    die():void {
+        this.disable = true;
+    }
+
     play(): void {
         this.position1.x += this.velocity.vx;
         this.position1.y += this.velocity.vy;

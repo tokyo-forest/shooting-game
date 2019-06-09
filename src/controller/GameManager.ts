@@ -89,8 +89,10 @@ export default class GameManager {
             bulletManager.bullets.forEach(mb => {
                 enemyManager.enemys.forEach(enemy => {
                     Collision.determine(enemy.$entity, mb.$entity);
-                })
+                });
+                Collision.determine(myUfo, mb.$entity);
             });
+
         };
         app.ticker.add(delta => judgeCollision());
 

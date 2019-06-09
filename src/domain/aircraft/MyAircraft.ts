@@ -84,6 +84,10 @@ export default class MyAircraft extends Aircraft {
         this.position1.y += this.speed;
     }
 
+    die(): void {
+        console.log("gameover");
+    }
+
     play(): void {
         this.position1.x += this.velocity.vx;
         this.position1.y += this.velocity.vy;
