@@ -1,8 +1,8 @@
 import MyAircraft from "../aircraft/MyAircraft";
 import MyBulletFactory from "./MyBulletFactory";
 import BulletFactory from "./BulletFactory";
-import { IBulletCreateObserver } from "../../controller/BulletManager";
 import EntityView from "../../controller/view/EntityView";
+import BulletManager from "../../controller/BulletManager";
 
 /**
  * 機体を作成するファクトリクラス
@@ -10,8 +10,8 @@ import EntityView from "../../controller/view/EntityView";
 export default class MyAircraftFactory {
     private bulletFactory: BulletFactory;
 
-    constructor(bulletCreateObserver: IBulletCreateObserver) {
-        this.bulletFactory = new MyBulletFactory(bulletCreateObserver);
+    constructor(bulletManager: BulletManager) {
+        this.bulletFactory = new MyBulletFactory(bulletManager);
     }
 
     // 自機の画像
@@ -24,7 +24,7 @@ export default class MyAircraftFactory {
     DEFAULT_POS_X: number = 100;
     DEFAULT_POS_Y: number = 100;
 
-    createAircraft(): EntityView {
+    createAircraft(): EntityView<MyAircraft> {
         let myAircraft: MyAircraft = new MyAircraft(
             this.MY_AIRCRAFT_RADIUS,
             this.MY_AIRCRAFT_LAUNCH_INTERVAL,
@@ -33,6 +33,6 @@ export default class MyAircraftFactory {
         myAircraft.position1.x = this.DEFAULT_POS_X;
         myAircraft.position1.y = this.DEFAULT_POS_Y;
 
-        return new EntityView(this.MY_AIRCRAFT_VIEW, myAircraft);
+        return new EntityView<MyAircraft>(this.MY_AIRCRAFT_VIEW, myAircraft);
     }
 }

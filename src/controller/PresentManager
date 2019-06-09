@@ -1,6 +1,0 @@
-/**
- * 描画処理を管理するマネージャクラス
- */
-export default class PresentManager {
-
-}

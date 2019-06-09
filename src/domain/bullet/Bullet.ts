@@ -1,11 +1,10 @@
-import {Entity} from "../entity/Entity";
+import { Entity } from "../entity/Entity";
 import DamageValue from "../valueObject/DamageValue";
-import {ICollisionObject} from "../collision/ICollisionObject";
 
 /**
  * 弾の抽象クラス
  */
-export default abstract class Bullet extends Entity{
+export default abstract class Bullet extends Entity {
     constructor(radius: number) {
         super(radius);
     }
@@ -18,8 +17,8 @@ export default abstract class Bullet extends Entity{
         this.position1.y += this.velocity.vy;
     }
 
-    collided(collisionObject: ICollisionObject): void {
-        super.collided(collisionObject);
+    collided(entity: Entity): void {
+        super.collided(entity);
         this.disable = true;
     }
 
