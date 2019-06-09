@@ -2,6 +2,7 @@ import EnemyAircraftFactory from "../domain/factory/EnemyAircraftFactory";
 import PixiAdapter from "./PixiAdapter";
 import EntityView from "./view/EntityView";
 import EnemyAircraft from "../domain/aircraft/EnemyAircraft";
+import ScoreManager from "./ScoreManager";
 
 /**
  * 敵を管理するクラス
@@ -12,6 +13,7 @@ export default class EnemyManager {
     timer: number;
     nextCreateTimer: number;
     pixiAdapter: PixiAdapter;
+    scoreManager: ScoreManager;
 
 
     // 敵の出現頻度
@@ -19,13 +21,14 @@ export default class EnemyManager {
 
     enemys: Array<EntityView<EnemyAircraft>>;
 
-    constructor(enemyAircraftFactory: EnemyAircraftFactory, pixiAdapter: PixiAdapter) {
+    constructor(enemyAircraftFactory: EnemyAircraftFactory, pixiAdapter: PixiAdapter, scoreManager: ScoreManager) {
         this.enemyAircraftFactory = enemyAircraftFactory;
         this.timer = 0;
         this.frequencyOfAppearance = 20;
         this.nextCreateTimer = this.getRandomNumberWithRange(this.frequencyOfAppearance, 1);
         this.pixiAdapter = pixiAdapter;
         this.enemys = new Array<EntityView<EnemyAircraft>>();
+        this.scoreManager = scoreManager;
     }
 
     play() {
@@ -33,7 +36,6 @@ export default class EnemyManager {
 
         if (this.timer >= this.nextCreateTimer) {
             let entityView: EntityView<EnemyAircraft> = this.enemyAircraftFactory.createAircraft();
-            // TODO: ここの20,400もここには書きたくない
             this.enemys.push(entityView);
             this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.nextCreateTimer += this.getRandomNumberWithRange(1, this.frequencyOfAppearance)
@@ -45,7 +47,10 @@ export default class EnemyManager {
     observeEnemyDisable(): void {
         const disableEnemys = this.enemys.filter(b => b.$entity.disable);
         if (disableEnemys.length >= 1) {
-            disableEnemys.forEach(e => this.pixiAdapter.removeChildSprite(e.$sprite));
+            disableEnemys.forEach(e => {
+                this.pixiAdapter.removeChildSprite(e.$sprite);
+                this.scoreManager.updateScore(e.$entity.score);
+            });
             this.enemys = this.enemys.filter(b => !b.$entity.disable);
         }
     }
