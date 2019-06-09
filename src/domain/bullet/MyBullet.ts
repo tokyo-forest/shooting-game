@@ -4,7 +4,7 @@ import DamageValue from "../valueObject/DamageValue";
 /**
  * 味方の弾の実装クラス
  */
-export default class MyBullet extends Bullet{
+export default class MyBullet extends Bullet {
     // 半径
     static RADIUS: number = 10;
 

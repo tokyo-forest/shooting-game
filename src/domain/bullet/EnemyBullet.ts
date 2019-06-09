@@ -4,7 +4,7 @@ import DamageValue from "../valueObject/DamageValue";
 /**
  * 敵の弾の実装クラス
  */
-export default class EnemyBullet extends Bullet{
+export default class EnemyBullet extends Bullet {
     // 半径
     static RADIUS: number = 10;
 

@@ -9,6 +9,7 @@ export default class Collision {
      * 衝突判定を行い、衝突時のイベントを呼ぶ
      */
     static determine(obj1: Entity, obj2: Entity): boolean {
+
         const pos1: Position = obj1.position();
         const pos2: Position = obj2.position();
 

@@ -11,6 +11,7 @@ import EnemyManager from "./EnemyManager";
 import PixiAdapter from './PixiAdapter';
 import EntityView from './view/EntityView';
 import ScoreManager from "./ScoreManager";
+import EasyFirePattern from '../domain/firePattern/EasyFirePattern';
 
 /**
  * ゲームマネージャクラス
@@ -21,8 +22,8 @@ export default class GameManager {
 
         let bulletManager: BulletManager = new BulletManager(pixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
-        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern());
         let scoreManager: ScoreManager = new ScoreManager(pixiAdapter);
+        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern(),new EasyFirePattern());
 
         // 敵の管理クラスの設定
         let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, pixiAdapter, scoreManager);
@@ -91,7 +92,7 @@ export default class GameManager {
                 })
             });
         };
-        app.ticker.add(delta => judgeCollision());
+        // app.ticker.add(delta => judgeCollision());
 
         // 壁の衝突判定を定義
         let wallCollision = new WallCollision(20, 20, 400, 400);

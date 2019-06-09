@@ -3,6 +3,7 @@ import BulletFactory from "../factory/BulletFactory";
 import ActPattern from "../actPattern/ActPattern";
 import MovementDirection from "../actPattern/MovementDirection";
 import DamageValue from "../valueObject/DamageValue";
+import IFirePattern from "../firePattern/IFirePattern";
 
 /**
  * 敵機のドメインクラス.
@@ -10,11 +11,13 @@ import DamageValue from "../valueObject/DamageValue";
 export default class EnemyAircraft extends Aircraft {
 
     actPattern: ActPattern;
+    firePattern: IFirePattern;
 
-    constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern, score: number) {
+    constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern, score: number, firePattern: IFirePattern) {
         super(radius, bulletFactory);
         this.score = score;
         this.actPattern = actPattern;
+        this.firePattern = firePattern;
     }
 
     // 次の異動先の計算を行う
@@ -29,8 +32,16 @@ export default class EnemyAircraft extends Aircraft {
         return new DamageValue(1);
     }
 
+    // 弾を発射する
+    fire(): void {
+        this.bulletFactory.createBullet(this);
+    }
+
     play(): void {
         this.position1.x += this.velocity.vx;
         this.position1.y += this.velocity.vy;
+        if (this.firePattern.isFired()) {
+            this.fire();
+        }
     }
 }

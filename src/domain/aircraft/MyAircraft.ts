@@ -16,7 +16,7 @@ export default class MyAircraft extends Aircraft {
     // 移動速度
     speed: number;
 
-    constructor( radius: number, launchInterval: number, bulletFactory: BulletFactory) {
+    constructor(radius: number, launchInterval: number, bulletFactory: BulletFactory) {
         super(radius, bulletFactory);
         this.bullets = new Array<Bullet>();
         this.launchInterval = launchInterval;
