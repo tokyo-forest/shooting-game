@@ -5,6 +5,7 @@ import IPlay from "./IPlay";
 import DamageValue from "../valueObject/DamageValue";
 import Position from "../valueObject/Position"
 import Velocity from "../valueObject/Velocity";
+import {Camp} from "../valueObject/Camp";
 
 /**
  * 画面に表示されるオブジェクトを表す.
@@ -16,6 +17,7 @@ export abstract class Entity implements ICollisionObject, IPlay, INextAction, IW
     radius: number;
     damageList: Array<DamageValue>;
     score: number;
+    camp:Camp =Camp.NONE;
 
     protected constructor(radius: number) {
         this.velocity = new Velocity(0, 0);

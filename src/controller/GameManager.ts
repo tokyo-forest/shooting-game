@@ -92,7 +92,7 @@ export default class GameManager {
                 })
             });
         };
-        // app.ticker.add(delta => judgeCollision());
+        app.ticker.add(delta => judgeCollision());
 
         // 壁の衝突判定を定義
         let wallCollision = new WallCollision(20, 20, 400, 400);

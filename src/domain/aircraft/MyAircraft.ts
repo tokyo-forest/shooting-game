@@ -1,6 +1,7 @@
 import Aircraft from "./Aircraft";
 import Bullet from "../bullet/Bullet";
 import BulletFactory from "../factory/BulletFactory";
+import {Camp} from "../valueObject/Camp";
 
 /**
  * 自機のドメインクラス.
@@ -16,6 +17,7 @@ export default class MyAircraft extends Aircraft {
     // 移動速度
     speed: number;
 
+    camp = Camp.FAMILY;
     constructor(radius: number, launchInterval: number, bulletFactory: BulletFactory) {
         super(radius, bulletFactory);
         this.bullets = new Array<Bullet>();

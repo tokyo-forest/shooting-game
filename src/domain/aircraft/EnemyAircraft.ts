@@ -4,6 +4,7 @@ import ActPattern from "../actPattern/ActPattern";
 import MovementDirection from "../actPattern/MovementDirection";
 import DamageValue from "../valueObject/DamageValue";
 import IFirePattern from "../firePattern/IFirePattern";
+import {Camp} from "../valueObject/Camp";
 
 /**
  * 敵機のドメインクラス.
@@ -12,6 +13,7 @@ export default class EnemyAircraft extends Aircraft {
 
     actPattern: ActPattern;
     firePattern: IFirePattern;
+    camp = Camp.ENEMY;
 
     constructor(radius: number, bulletFactory: BulletFactory, actPattern: ActPattern, score: number, firePattern: IFirePattern) {
         super(radius, bulletFactory);
