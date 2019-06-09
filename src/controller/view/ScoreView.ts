@@ -27,7 +27,7 @@ export default class ScoreView {
             wordWrapWidth: 440,
         });
 
-        this.textSprite = new PIXI.Text("", style);
+        this.textSprite = new PIXI.Text(this.formatScoreText(0), style);
         this.textSprite.x = 400;
         this.textSprite.y = 20;
 
@@ -36,8 +36,17 @@ export default class ScoreView {
 
     /**
      * 表示させる文字列を更新する.
+     * @param score スコア
      */
-    public refreshScore(score: number) {
-        this.textSprite.text = score + "点";
+    public refreshScore(score: number): void {
+        this.textSprite.text = this.formatScoreText(score);
+    }
+
+    /**
+     * 画面に表示する文字を作成する.
+     * @param score スコア
+     */
+    private formatScoreText(score: number): string {
+        return score + "点"
     }
 }
