@@ -1,5 +1,5 @@
-import {IWallCollision} from "../collision/WallCollision";
-import {ICollisionObject} from "../collision/ICollisionObject";
+import { IWallCollision } from "../collision/WallCollision";
+import { ICollisionObject } from "../collision/ICollisionObject";
 import INextAction from "./INextAction";
 import IPlay from "./IPlay";
 import DamageValue from "../valueObject/DamageValue";
@@ -9,16 +9,16 @@ import Velocity from "../valueObject/Velocity";
 /**
  * 画面に表示されるオブジェクトを表す.
  */
-export abstract class Entity implements ICollisionObject,  IPlay, INextAction, IWallCollision {
+export abstract class Entity implements ICollisionObject, IPlay, INextAction, IWallCollision {
     position1: Position;
     velocity: Velocity;
     disable: boolean;
     radius: number;
     damageList: Array<DamageValue>;
 
-    protected constructor( radius: number) {
-        this.velocity = new Velocity(0,0);
-        this.position1 = new Position(0,0);
+    protected constructor(radius: number) {
+        this.velocity = new Velocity(0, 0);
+        this.position1 = new Position(0, 0);
         this.disable = false;
         this.radius = radius;
         this.damageList = new Array<DamageValue>();

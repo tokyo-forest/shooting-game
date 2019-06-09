@@ -2,8 +2,8 @@ import BulletFactory from "./BulletFactory";
 import EnemyAircraft from "../aircraft/EnemyAircraft";
 import EnemyBulletFactory from "./EnemyBulletFactory";
 import ActPattern from "../actPattern/ActPattern";
-import { IBulletCreateObserver } from "../../controller/BulletManager";
 import EntityView from "../../controller/view/EntityView";
+import BulletManager from "../../controller/BulletManager";
 
 /**
  * 敵機体を作成するファクトリクラス
@@ -12,8 +12,8 @@ export default class EnemyAircraftFactory {
     private bulletFactory: BulletFactory;
     private actPattern: ActPattern;
 
-    constructor(bulletCreateObserver: IBulletCreateObserver, actPattern: ActPattern) {
-        this.bulletFactory = new EnemyBulletFactory(bulletCreateObserver);
+    constructor(bulletManager: BulletManager, actPattern: ActPattern) {
+        this.bulletFactory = new EnemyBulletFactory(bulletManager);
         this.actPattern = actPattern;
     }
 
@@ -29,10 +29,6 @@ export default class EnemyAircraftFactory {
         newEnemy.position1.y = 20;
 
         return new EntityView<EnemyAircraft>(this.ENEMY_AIRCRAFT_VIEW, newEnemy);
-    }
-
-    private getRandomNumber(max: number): number {
-        return this.getRandomNumberWithRange(max, 0);
     }
 
     // Util的な場所に移動する

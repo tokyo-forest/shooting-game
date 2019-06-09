@@ -1,33 +1,25 @@
 import Bullet from "../bullet/Bullet";
 import Aircraft from "../aircraft/Aircraft";
-import { IBuletCreateObservable, IBulletCreateObserver } from "../../controller/BulletManager";
 import EntityView from "../../controller/view/EntityView";
-
-export interface IcreateBullet {
-    createBullet(aircraft: Aircraft): Bullet;
-}
+import BulletManager from "../../controller/BulletManager";
 
 /**
  * 弾を作成するファクトリクラス
  * BulletFactory自身をinterfaceにして、createメソッドだけをもたせたい
  */
-export default abstract class BulletFactory implements IcreateBullet, IBuletCreateObservable {
-    createObservers: Array<IBulletCreateObserver>;
+export default abstract class BulletFactory {
+    bulletManagers: Array<BulletManager>;
 
-    constructor(observer: IBulletCreateObserver) {
-        this.createObservers = new Array<IBulletCreateObserver>();
-        this.bulletOn(observer);
+    constructor(bulletManager: BulletManager) {
+        this.bulletManagers = new Array<BulletManager>();
+        this.bulletManagers.push(bulletManager);
     }
 
     abstract createBullet(aircraft: Aircraft): Bullet
 
-    bulletOn(createObserver: IBulletCreateObserver): void {
-        this.createObservers.push(createObserver);
-    }
-
     // Managerクラスに知らせるメソッド
     notifyBulletCreate(bullet: Bullet, imagePath: string): void {
-        this.createObservers.forEach(
+        this.bulletManagers.forEach(
             c => {
                 let entityView = new EntityView(imagePath, bullet)
                 c.addBullets(entityView);
