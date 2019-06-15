@@ -9,7 +9,7 @@ import ScoreManager from "./ScoreManager";
  */
 export default class EnemyManager {
 
-    enemyAircraftFactory: EnemyAircraftFactory;
+    enemyAircraftFactoryList: Array<EnemyAircraftFactory>;
     timer: number;
     nextCreateTimer: number;
     pixiAdapter: PixiAdapter;
@@ -21,8 +21,8 @@ export default class EnemyManager {
 
     enemys: Array<EntityView<EnemyAircraft>>;
 
-    constructor(enemyAircraftFactory: EnemyAircraftFactory, pixiAdapter: PixiAdapter, scoreManager: ScoreManager) {
-        this.enemyAircraftFactory = enemyAircraftFactory;
+    constructor(enemyAircraftFactoryList: Array<EnemyAircraftFactory>, pixiAdapter: PixiAdapter, scoreManager: ScoreManager) {
+        this.enemyAircraftFactoryList = enemyAircraftFactoryList;
         this.timer = 0;
         this.frequencyOfAppearance = 20;
         this.nextCreateTimer = this.getRandomNumberWithRange(this.frequencyOfAppearance, 1);
@@ -35,7 +35,8 @@ export default class EnemyManager {
         this.timer++;
 
         if (this.timer >= this.nextCreateTimer) {
-            let entityView: EntityView<EnemyAircraft> = this.enemyAircraftFactory.createAircraft();
+            let chosenEnemyFactory = this.enemyAircraftFactoryList[Math.floor(Math.random() * this.enemyAircraftFactoryList.length)];
+            let entityView: EntityView<EnemyAircraft> = chosenEnemyFactory.createAircraft();
             this.enemys.push(entityView);
             this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.nextCreateTimer += this.getRandomNumberWithRange(1, this.frequencyOfAppearance)

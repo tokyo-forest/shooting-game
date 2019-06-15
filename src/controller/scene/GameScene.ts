@@ -3,7 +3,7 @@ import MyAircraftFactory from "../../domain/factory/MyAircraftFactory";
 import EnemyAircraftFactory from "../../domain/factory/EnemyAircraftFactory";
 import MyAircraft from "../../domain/aircraft/MyAircraft";
 import KeyboardManager from "../../common/KeyboardManager";
-import {StraightActPattern} from "../../domain/actPattern/ActPattern";
+import { StraightActPattern } from "../../domain/actPattern/ActPattern";
 import Collision from "../../domain/collision/Collision";
 import WallCollision from "../../domain/collision/WallCollision";
 import BulletManager from "../BulletManager";
@@ -13,9 +13,10 @@ import EntityView from '../view/EntityView';
 import ScoreManager from "../ScoreManager";
 import EasyFirePattern from '../../domain/firePattern/EasyFirePattern';
 import BaseScene from "./BaseScene";
-import {TickerStore} from "../SceneManager";
-import {SceneStatus} from "./SceneStatus";
-import {Status} from "../../domain/valueObject/Status";
+import { TickerStore } from "../SceneManager";
+import { SceneStatus } from "./SceneStatus";
+import { Status } from "../../domain/valueObject/Status";
+import RandomActPattern from '../../domain/actPattern/RandomActPattern';
 
 export default class GameScene implements BaseScene {
     tickerStore: TickerStore;
@@ -26,11 +27,14 @@ export default class GameScene implements BaseScene {
     gamePixiAdapter: PixiAdapter;
     keyboardManager: KeyboardManager;
 
+    enemyAircraftFactoryList: Array<EnemyAircraftFactory>;
+
     constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         this.tickerStore = new TickerStore(SceneStatus.GAME);
         this.app = app;
         this.gamePixiAdapter = gamePixiAdapter;
         this.keyboardManager = new KeyboardManager();
+        this.enemyAircraftFactoryList = new Array<EnemyAircraftFactory>();
     }
 
     create() {
@@ -39,10 +43,12 @@ export default class GameScene implements BaseScene {
         let bulletManager: BulletManager = new BulletManager(this.gamePixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
         let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter);
-        let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern(), new EasyFirePattern());
+        this.enemyAircraftFactoryList.push(
+            new EnemyAircraftFactory(bulletManager, new StraightActPattern(), new EasyFirePattern()),
+            new EnemyAircraftFactory(bulletManager, new RandomActPattern(), new EasyFirePattern()));
 
         // 敵の管理クラスの設定
-        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, this.gamePixiAdapter, scoreManager);
+        let enemyManager: EnemyManager = new EnemyManager(this.enemyAircraftFactoryList, this.gamePixiAdapter, scoreManager);
         // TODO MyAircraftManagerも欲しいところ
         this.tickerStore.add(delta => enemyManager.play());
 
