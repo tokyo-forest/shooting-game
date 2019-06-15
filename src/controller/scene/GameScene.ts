@@ -3,7 +3,6 @@ import MyAircraftFactory from "../../domain/factory/MyAircraftFactory";
 import EnemyAircraftFactory from "../../domain/factory/EnemyAircraftFactory";
 import MyAircraft from "../../domain/aircraft/MyAircraft";
 import KeyboardManager from "../../common/KeyboardManager";
-import { StraightActPattern } from "../../domain/actPattern/ActPattern";
 import Collision from "../../domain/collision/Collision";
 import WallCollision from "../../domain/collision/WallCollision";
 import BulletManager from "../BulletManager";
@@ -13,12 +12,14 @@ import EntityView from '../view/EntityView';
 import ScoreManager from "../ScoreManager";
 import EasyFirePattern from '../../domain/firePattern/EasyFirePattern';
 import BaseScene from "./BaseScene";
-import { TickerStore } from "../SceneManager";
-import { SceneStatus } from "./SceneStatus";
-import { Status } from "../../domain/valueObject/Status";
+import {TickerStore} from "../SceneManager";
+import {SceneStatus} from "./SceneStatus";
+import {Status} from "../../domain/valueObject/Status";
 import RandomActPattern from '../../domain/actPattern/RandomActPattern';
 import DiagonalActPattern from '../../domain/actPattern/DiagonalActPattern';
-import { Direction } from '../../domain/valueObject/Direction';
+import {Direction} from '../../domain/valueObject/Direction';
+import Position from "../../domain/valueObject/Position";
+import InteractionData = PIXI.interaction.InteractionData;
 
 export default class GameScene implements BaseScene {
     tickerStore: TickerStore;
@@ -62,8 +63,7 @@ export default class GameScene implements BaseScene {
         let myUfo = myUfoEntityView.$entity as MyAircraft;
         this.myAirCraft = myUfo;
 
-
-
+        // キーボード押下時の制御
         this.keyboardManager.left.pushPressHandler((event: any) => {
             myUfo.moveLeft()
         });
@@ -98,6 +98,31 @@ export default class GameScene implements BaseScene {
                 myUfo.stopDown();
             }
         });
+
+        // マウス位置での制御
+        // https://pixijs.io/examples/#/interaction/dragging.js
+        if (PIXI.utils.isMobile.any === true) {
+            const dummy = PIXI.Sprite.from("contents/img/shuttle.gif");
+            this.gamePixiAdapter.addChildSprite(dummy);
+            dummy.interactive = true;
+            dummy.anchor.set(0.5);
+            dummy.scale.set(1);
+            let onDragMove = (event: any) => {
+                console.log("drag event called");
+                const inter: InteractionData = event.data;
+                const p = inter.getLocalPosition(dummy);
+                myUfo.position1 = new Position(p.x, p.y);
+            };
+            let onDragStart = (event: any) => {
+                console.log("drag event called");
+                const inter: InteractionData = event.data;
+                const p = inter.getLocalPosition(dummy);
+                myUfo.position1 = new Position(p.x, p.y);
+            };
+            dummy.on('pointermove', onDragMove);
+            dummy.on('pointerdown', onDragStart);
+
+        }
 
         // 次の行動を設定
         let actNext = () => {
