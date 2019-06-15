@@ -1,7 +1,8 @@
 import Aircraft from "./Aircraft";
 import Bullet from "../bullet/Bullet";
 import BulletFactory from "../factory/BulletFactory";
-import {Camp} from "../valueObject/Camp";
+import { Camp } from "../valueObject/Camp";
+import { Status } from "../valueObject/Status";
 
 /**
  * 自機のドメインクラス.
@@ -18,6 +19,9 @@ export default class MyAircraft extends Aircraft {
     speed: number;
 
     camp = Camp.FAMILY;
+
+    status = Status.ALIVE;
+
     constructor(radius: number, launchInterval: number, bulletFactory: BulletFactory) {
         super(radius, bulletFactory);
         this.bullets = new Array<Bullet>();
@@ -85,6 +89,8 @@ export default class MyAircraft extends Aircraft {
     }
 
     die(): void {
+        this.status = Status.GAMEOVER;
+
         console.log("gameover");
     }
 
