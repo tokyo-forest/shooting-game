@@ -15,30 +15,38 @@ import EasyFirePattern from '../../domain/firePattern/EasyFirePattern';
 import BaseScene from "./BaseScene";
 import {TickerStore} from "../SceneManager";
 import {SceneStatus} from "./SceneStatus";
+import {Status} from "../../domain/valueObject/Status";
 
 export default class GameScene implements BaseScene {
     tickerStore: TickerStore;
 
-    constructor() {
+    myAirCraft: MyAircraft | undefined;
+
+    app: PIXI.Application;
+    gamePixiAdapter: PixiAdapter;
+
+    constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         this.tickerStore = new TickerStore(SceneStatus.GAME);
+        this.app = app;
+        this.gamePixiAdapter = gamePixiAdapter;
     }
 
-    create(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
-
-        let bulletManager: BulletManager = new BulletManager(gamePixiAdapter);
+    create() {
+        let bulletManager: BulletManager = new BulletManager(this.gamePixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
-        let scoreManager: ScoreManager = new ScoreManager(gamePixiAdapter);
+        let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter);
         let enemyAircraftFactory: EnemyAircraftFactory = new EnemyAircraftFactory(bulletManager, new StraightActPattern(), new EasyFirePattern());
 
         // 敵の管理クラスの設定
-        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, gamePixiAdapter, scoreManager);
+        let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, this.gamePixiAdapter, scoreManager);
         // TODO MyAircraftManagerも欲しいところ
         this.tickerStore.add(delta => enemyManager.play());
 
         let myUfoEntityView: EntityView<MyAircraft> = myAircraftFactory.createAircraft();
-        gamePixiAdapter.addChildSprite(myUfoEntityView.$sprite);
+        this.gamePixiAdapter.addChildSprite(myUfoEntityView.$sprite);
         // myAircraftFactoryからつくられているので、必ず下記のキャストは成功する
         let myUfo = myUfoEntityView.$entity as MyAircraft;
+        this.myAirCraft = myUfo;
 
         let keyboardManager: KeyboardManager = new KeyboardManager();
 
@@ -152,9 +160,23 @@ export default class GameScene implements BaseScene {
     }
 
     destroy(): void {
+        this.gamePixiAdapter.hideContainer();
     }
 
     getTickerStore(): TickerStore {
         return this.tickerStore;
+    }
+
+    nextScene(): SceneStatus {
+        // myAirCraftがundefinedのときは想定外のためTopへ戻す.
+        if (this.myAirCraft === undefined) {
+            return SceneStatus.GAME;
+        }
+
+        if (this.myAirCraft.status === Status.GAMEOVER) {
+            return SceneStatus.GAMEOVER;
+        }
+
+        return SceneStatus.GAME;
     }
 }

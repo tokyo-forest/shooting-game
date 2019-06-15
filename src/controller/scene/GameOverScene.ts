@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import BaseScene from "./BaseScene";
 import PixiAdapter from "../PixiAdapter";
 import {TickerStore} from "../SceneManager";
@@ -5,12 +6,16 @@ import {SceneStatus} from "./SceneStatus";
 
 export default class GameOverScene implements BaseScene {
     tickerStore: TickerStore;
+    app: PIXI.Application;
+    gamePixiAdapter: PixiAdapter;
 
-    constructor() {
+    constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         this.tickerStore = new TickerStore(SceneStatus.GAMEOVER);
+        this.app = app;
+        this.gamePixiAdapter = gamePixiAdapter;
     }
 
-    create(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
+    create() {
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
             fontSize: 36,
@@ -33,14 +38,19 @@ export default class GameOverScene implements BaseScene {
         textSprite.x = 20;
         textSprite.y = 20;
 
-        gamePixiAdapter.addChildSprite(textSprite);
+        this.gamePixiAdapter.addChildSprite(textSprite);
 
     }
 
     destroy(): void {
+        this.gamePixiAdapter.hideContainer();
     }
 
     getTickerStore(): TickerStore {
         return this.tickerStore;
+    }
+
+    nextScene(): SceneStatus {
+        return SceneStatus.GAMEOVER;
     }
 }

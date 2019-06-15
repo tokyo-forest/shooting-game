@@ -27,4 +27,12 @@ export default class PixiAdapter {
     public removeChildSprite(sprite: PIXI.Sprite) {
         this.stage.removeChild(sprite);
     }
+
+    public hideContainer() {
+        this.stage.visible = false;
+    }
+
+    public showContainer() {
+        this.stage.visible = true;
+    }
 }

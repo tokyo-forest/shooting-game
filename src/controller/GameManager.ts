@@ -11,26 +11,21 @@ import Container = PIXI.Container;
  */
 export default class GameManager {
     static createGame(app: PIXI.Application) {
-        // SceneManager
-        let tickerManager = new SceneManager(app.ticker, SceneStatus.GAME);
-
         // ゲーム画面のコンテナ
         let gameContainer = new Container();
         app.stage.addChild(gameContainer);
         const gamePixiAdapter: PixiAdapter = new PixiAdapter(gameContainer);
-        let gameScene = new GameScene();
-        gameScene.create(app, gamePixiAdapter);
-        tickerManager.addTickerStore(gameScene.getTickerStore());
+        let gameScene = new GameScene(app, gamePixiAdapter);
 
         // ゲームオーバー画面のコンテナ
         let gameOverContainer = new Container();
         app.stage.addChild(gameOverContainer);
         const gameOverPixiAdapter: PixiAdapter = new PixiAdapter(gameOverContainer);
-        const gameOverScene = new GameOverScene();
-        gameOverScene.create(app,gameOverPixiAdapter);
-        tickerManager.addTickerStore(gameOverScene.getTickerStore());
+        const gameOverScene = new GameOverScene(app, gameOverPixiAdapter);
 
-        gameOverContainer.visible = false;
+        // SceneManager
+        new SceneManager(app.ticker, SceneStatus.GAME,
+            [gameScene, gameOverScene], gameScene);
 
         /**
          * サンプル実装を見る限り、この階層でsetup,gameloopを用意してあげるのがよさそう。

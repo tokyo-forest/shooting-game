@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
 import {SceneStatus} from "./scene/SceneStatus";
+import BaseScene from "./scene/BaseScene";
 
 /**
  * 画面遷移などのシーン制御を行う
@@ -7,39 +8,46 @@ import {SceneStatus} from "./scene/SceneStatus";
 export default class SceneManager {
     private ticker: PIXI.Ticker;
 
-    private tickerStores: TickerStore[];
+    // 全てのシーンクラス.
+    private scenes: BaseScene[];
 
-    private scene: SceneStatus;
+    // 現在のシーンを保持する
+    private currentSceneStatus: SceneStatus;
 
-    constructor(ticker: PIXI.Ticker, scene: SceneStatus) {
+    // 現在のシーンに対応するシーンクラスを保持
+    private currentScene: BaseScene;
+
+    constructor(ticker: PIXI.Ticker, scene: SceneStatus, scenes: BaseScene[], initScene: BaseScene) {
         this.ticker = ticker;
-        this.tickerStores = [];
-        this.scene = scene;
+        this.scenes = scenes;
+        this.currentSceneStatus = scene;
+        this.currentScene = initScene;
         this.ticker.add(param => this.play(param));
-    }
-
-    setScene(scene: SceneStatus) {
-        this.scene = scene;
+        this.currentScene.create();
     }
 
     play(param: any): any {
-        this.tickerStores
-            .filter(store => this.scene === store.getScene())
-            .forEach(store => store.play());
-        return param;
-    }
+        this.currentScene.getTickerStore().play();
+        const nextScene = this.currentScene.nextScene();
 
-    addTickerStore(tickerStore: TickerStore) {
-        this.tickerStores.push(tickerStore);
-    }
+        // 現在のシーンステータスを次のシーンが異なる場合、切り替え処理を行う
+        if (this.currentSceneStatus !== nextScene) {
+            const previousScene = this.currentScene;
+            previousScene.destroy();
 
+            this.currentSceneStatus = nextScene;
+            this.currentScene = this.scenes
+                .filter(s => s.getTickerStore().scene == nextScene)[0];
+            this.currentScene.create();
+        }
+    }
 }
 
 // tickerで実行するための情報を格納する
 export class TickerStore {
     private array: ((...params: any[]) => any)[];
 
-    private scene: SceneStatus;
+    scene: SceneStatus;
 
     constructor(scene: SceneStatus) {
         this.array = [];
@@ -53,9 +61,5 @@ export class TickerStore {
     play() {
         // arrayに設定されている項目を実行する.
         this.array.forEach(a => a());
-    }
-
-    getScene(): SceneStatus {
-        return this.scene;
     }
 }
