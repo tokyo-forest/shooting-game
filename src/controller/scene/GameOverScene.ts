@@ -21,6 +21,7 @@ export default class GameOverScene implements BaseScene {
     }
 
     create() {
+        this.move = false;
         this.keyboardManager = new KeyboardManager();
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
@@ -56,7 +57,7 @@ export default class GameOverScene implements BaseScene {
 
     destroy(): void {
         this.gamePixiAdapter.hideContainer();
-        this.gamePixiAdapter.removeAll();
+        this.gamePixiAdapter.removeChildren();
     }
 
     getTickerStore(): TickerStore {

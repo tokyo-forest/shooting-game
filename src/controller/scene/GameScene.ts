@@ -34,6 +34,8 @@ export default class GameScene implements BaseScene {
     }
 
     create() {
+        this.tickerStore = new TickerStore(SceneStatus.GAME);
+
         let bulletManager: BulletManager = new BulletManager(this.gamePixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
         let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter);
@@ -165,8 +167,9 @@ export default class GameScene implements BaseScene {
 
     destroy(): void {
         this.gamePixiAdapter.hideContainer();
-        this.gamePixiAdapter.removeAll();
+        this.gamePixiAdapter.removeChildren();
         this.keyboardManager.clearAllKeyEvent();
+        this.tickerStore
     }
 
     getTickerStore(): TickerStore {

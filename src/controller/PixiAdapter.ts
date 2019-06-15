@@ -31,8 +31,8 @@ export default class PixiAdapter {
     /**
      * spriteを全て削除する
      */
-    public removeAll() {
-        this.stage.removeAllListeners();
+    public removeChildren() {
+        this.stage.removeChildren();
     }
 
     public hideContainer() {
