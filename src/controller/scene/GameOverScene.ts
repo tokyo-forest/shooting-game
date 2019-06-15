@@ -1,7 +1,15 @@
 import BaseScene from "./BaseScene";
 import PixiAdapter from "../PixiAdapter";
+import {TickerStore} from "../SceneManager";
+import {SceneStatus} from "./SceneStatus";
 
 export default class GameOverScene implements BaseScene {
+    tickerStore: TickerStore;
+
+    constructor() {
+        this.tickerStore = new TickerStore(SceneStatus.GAMEOVER);
+    }
+
     create(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
@@ -30,5 +38,9 @@ export default class GameOverScene implements BaseScene {
     }
 
     destroy(): void {
+    }
+
+    getTickerStore(): TickerStore {
+        return this.tickerStore;
     }
 }

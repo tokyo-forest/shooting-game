@@ -13,8 +13,16 @@ import EntityView from '../view/EntityView';
 import ScoreManager from "../ScoreManager";
 import EasyFirePattern from '../../domain/firePattern/EasyFirePattern';
 import BaseScene from "./BaseScene";
+import {TickerStore} from "../SceneManager";
+import {SceneStatus} from "./SceneStatus";
 
 export default class GameScene implements BaseScene {
+    tickerStore: TickerStore;
+
+    constructor() {
+        this.tickerStore = new TickerStore(SceneStatus.GAME);
+    }
+
     create(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
 
         let bulletManager: BulletManager = new BulletManager(gamePixiAdapter);
@@ -25,7 +33,7 @@ export default class GameScene implements BaseScene {
         // 敵の管理クラスの設定
         let enemyManager: EnemyManager = new EnemyManager(enemyAircraftFactory, gamePixiAdapter, scoreManager);
         // TODO MyAircraftManagerも欲しいところ
-        app.ticker.add(delta => enemyManager.play());
+        this.tickerStore.add(delta => enemyManager.play());
 
         let myUfoEntityView: EntityView<MyAircraft> = myAircraftFactory.createAircraft();
         gamePixiAdapter.addChildSprite(myUfoEntityView.$sprite);
@@ -79,7 +87,7 @@ export default class GameScene implements BaseScene {
                 e => e.$entity.nextAction()
             );
         };
-        app.ticker.add(delta => actNext());
+        this.tickerStore.add(delta => actNext());
 
         // 弾の衝突判定を定義
         let judgeCollision = () => {
@@ -91,7 +99,7 @@ export default class GameScene implements BaseScene {
             });
 
         };
-        app.ticker.add(delta => judgeCollision());
+        this.tickerStore.add(delta => judgeCollision());
 
         // 壁の衝突判定を定義
         let wallCollision = new WallCollision(20, 20, 400, 400);
@@ -104,7 +112,7 @@ export default class GameScene implements BaseScene {
                 wallCollision.determine(enemy.$entity);
             });
         };
-        app.ticker.add(delta => judgeWallCollision());
+        this.tickerStore.add(delta => judgeWallCollision());
 
         // ダメージの解決
         let applyDamage = () => {
@@ -113,12 +121,12 @@ export default class GameScene implements BaseScene {
                 e => e.$entity.applyDamage()
             );
         };
-        app.ticker.add(delta => applyDamage());
+        this.tickerStore.add(delta => applyDamage());
 
         // 弾の状態監視を定義
-        app.ticker.add(delta => bulletManager.observeBulletDisable());
+        this.tickerStore.add(delta => bulletManager.observeBulletDisable());
         // 敵の状態監視
-        app.ticker.add(delta => enemyManager.observeEnemyDisable());
+        this.tickerStore.add(delta => enemyManager.observeEnemyDisable());
 
         // 移動処理を定義
         let state = (delta: any) => {
@@ -132,17 +140,21 @@ export default class GameScene implements BaseScene {
         };
 
         //Start the game loop
-        app.ticker.add(delta => state(delta));
+        this.tickerStore.add(delta => state(delta));
 
         let updateSprite = (delta: any) => {
             bulletManager.bullets.forEach(b => b.update());
             enemyManager.enemys.forEach(b => b.update());
             myUfoEntityView.update();
-        }
+        };
 
-        app.ticker.add(delta => updateSprite(delta));
+        this.tickerStore.add(delta => updateSprite(delta));
     }
 
     destroy(): void {
+    }
+
+    getTickerStore(): TickerStore {
+        return this.tickerStore;
     }
 }
