@@ -19,6 +19,7 @@ import { Status } from "../../domain/valueObject/Status";
 import RandomActPattern from '../../domain/actPattern/RandomActPattern';
 import DiagonalActPattern from '../../domain/actPattern/DiagonalActPattern';
 import { Direction } from '../../domain/valueObject/Direction';
+import WaveActPattern from '../../domain/actPattern/WaveActPattern';
 
 export default class GameScene implements BaseScene {
     tickerStore: TickerStore;
@@ -49,7 +50,8 @@ export default class GameScene implements BaseScene {
             new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER), new EasyFirePattern()),
             new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_LEFT), new EasyFirePattern()),
             new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_RIGHT), new EasyFirePattern()),
-            new EnemyAircraftFactory(bulletManager, new RandomActPattern(), new EasyFirePattern()));
+            new EnemyAircraftFactory(bulletManager, new RandomActPattern(), new EasyFirePattern()),
+            new EnemyAircraftFactory(bulletManager, new WaveActPattern(), new EasyFirePattern()));
 
         // 敵の管理クラスの設定
         let enemyManager: EnemyManager = new EnemyManager(this.enemyAircraftFactoryList, this.gamePixiAdapter, scoreManager);
