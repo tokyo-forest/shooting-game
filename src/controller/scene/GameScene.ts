@@ -24,11 +24,13 @@ export default class GameScene implements BaseScene {
 
     app: PIXI.Application;
     gamePixiAdapter: PixiAdapter;
+    keyboardManager: KeyboardManager;
 
     constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         this.tickerStore = new TickerStore(SceneStatus.GAME);
         this.app = app;
         this.gamePixiAdapter = gamePixiAdapter;
+        this.keyboardManager = new KeyboardManager();
     }
 
     create() {
@@ -48,39 +50,39 @@ export default class GameScene implements BaseScene {
         let myUfo = myUfoEntityView.$entity as MyAircraft;
         this.myAirCraft = myUfo;
 
-        let keyboardManager: KeyboardManager = new KeyboardManager();
 
-        keyboardManager.left.pushPressHandler((event: any) => {
+
+        this.keyboardManager.left.pushPressHandler((event: any) => {
             myUfo.moveLeft()
         });
-        keyboardManager.left.pushReleaseHandler((event: any) => {
-            if (!keyboardManager.right.isDown) {
+        this.keyboardManager.left.pushReleaseHandler((event: any) => {
+            if (!this.keyboardManager.right.isDown) {
                 myUfo.stopLeft();
             }
         });
-        keyboardManager.up.pushPressHandler((event: any) => {
+        this.keyboardManager.up.pushPressHandler((event: any) => {
             myUfo.moveUp()
         });
-        keyboardManager.up.pushReleaseHandler((event: any) => {
-            if (!keyboardManager.down.isDown) {
+        this.keyboardManager.up.pushReleaseHandler((event: any) => {
+            if (!this.keyboardManager.down.isDown) {
                 myUfo.stopUp();
             }
         });
 
-        keyboardManager.right.pushPressHandler((event: any) => {
+        this.keyboardManager.right.pushPressHandler((event: any) => {
             myUfo.moveRight()
         });
-        keyboardManager.right.pushReleaseHandler((event: any) => {
-            if (!keyboardManager.left.isDown) {
+        this.keyboardManager.right.pushReleaseHandler((event: any) => {
+            if (!this.keyboardManager.left.isDown) {
                 myUfo.stopRight();
             }
         });
 
-        keyboardManager.down.pushPressHandler((event: any) => {
+        this.keyboardManager.down.pushPressHandler((event: any) => {
             myUfo.moveDown()
         });
-        keyboardManager.down.pushReleaseHandler((event: any) => {
-            if (!keyboardManager.up.isDown) {
+        this.keyboardManager.down.pushReleaseHandler((event: any) => {
+            if (!this.keyboardManager.up.isDown) {
                 myUfo.stopDown();
             }
         });
@@ -157,10 +159,14 @@ export default class GameScene implements BaseScene {
         };
 
         this.tickerStore.add(delta => updateSprite(delta));
+
+        this.gamePixiAdapter.showContainer();
     }
 
     destroy(): void {
         this.gamePixiAdapter.hideContainer();
+        this.gamePixiAdapter.removeAll();
+        this.keyboardManager.clearAllKeyEvent();
     }
 
     getTickerStore(): TickerStore {

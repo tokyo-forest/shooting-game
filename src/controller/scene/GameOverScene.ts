@@ -3,19 +3,25 @@ import BaseScene from "./BaseScene";
 import PixiAdapter from "../PixiAdapter";
 import {TickerStore} from "../SceneManager";
 import {SceneStatus} from "./SceneStatus";
+import KeyboardManager from "../../common/KeyboardManager";
 
 export default class GameOverScene implements BaseScene {
     tickerStore: TickerStore;
     app: PIXI.Application;
     gamePixiAdapter: PixiAdapter;
+    keyboardManager: KeyboardManager;
+    move: boolean;
 
     constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
         this.tickerStore = new TickerStore(SceneStatus.GAMEOVER);
         this.app = app;
         this.gamePixiAdapter = gamePixiAdapter;
+        this.keyboardManager = new KeyboardManager();
+        this.move = false;
     }
 
     create() {
+        this.keyboardManager = new KeyboardManager();
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
             fontSize: 36,
@@ -40,10 +46,17 @@ export default class GameOverScene implements BaseScene {
 
         this.gamePixiAdapter.addChildSprite(textSprite);
 
+        this.keyboardManager.space.pushPressHandler((event: any) => {
+            this.move = true;
+            console.log("called")
+        });
+
+        this.gamePixiAdapter.showContainer();
     }
 
     destroy(): void {
         this.gamePixiAdapter.hideContainer();
+        this.gamePixiAdapter.removeAll();
     }
 
     getTickerStore(): TickerStore {
@@ -51,6 +64,9 @@ export default class GameOverScene implements BaseScene {
     }
 
     nextScene(): SceneStatus {
+        if(this.move === true) {
+            return SceneStatus.GAME;
+        }
         return SceneStatus.GAMEOVER;
     }
 }
