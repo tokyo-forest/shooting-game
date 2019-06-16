@@ -74,7 +74,7 @@ export default class GameOverScene implements BaseScene {
         }
 
         // スコア表示させる.
-        let scoreView = new ScoreView(this.gamePixiAdapter);
+        let scoreView = new ScoreView(this.gamePixiAdapter, this.commonValue.windowSize);
         scoreView.refreshScore(this.commonValue.score);
 
         this.gamePixiAdapter.showContainer();

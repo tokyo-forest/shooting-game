@@ -14,7 +14,7 @@ export default class ScoreManager {
     private commonValue: CommonValue;
 
     constructor(pixiAdapter: PixiAdapter, commonValue: CommonValue) {
-        this.scoreView = new ScoreView(pixiAdapter);
+        this.scoreView = new ScoreView(pixiAdapter, commonValue.windowSize);
         this.commonValue = commonValue;
     }
 

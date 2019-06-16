@@ -5,6 +5,7 @@ import ActPattern from "../actPattern/ActPattern";
 import EntityView from "../../controller/view/EntityView";
 import BulletManager from "../../controller/BulletManager";
 import IFirePattern from "../firePattern/IFirePattern";
+import CommonValue from "../valueObject/CommonValue";
 
 /**
  * 敵機体を作成するファクトリクラス
@@ -13,11 +14,14 @@ export default class EnemyAircraftFactory {
     private bulletFactory: BulletFactory;
     private actPattern: ActPattern;
     private firePattern: IFirePattern;
+    private commonValue: CommonValue;
 
-    constructor(bulletManager: BulletManager, actPattern: ActPattern, firePattern: IFirePattern) {
+
+    constructor(bulletManager: BulletManager, actPattern: ActPattern, firePattern: IFirePattern, commonValue: CommonValue) {
         this.bulletFactory = new EnemyBulletFactory(bulletManager);
         this.actPattern = actPattern;
         this.firePattern = firePattern;
+        this.commonValue = commonValue;
     }
 
     // 敵機の画像
@@ -30,7 +34,7 @@ export default class EnemyAircraftFactory {
 
     public createAircraft(): EntityView<EnemyAircraft> {
         let newEnemy = new EnemyAircraft(this.ENEMY_AIRCRAFT_RADIUS, this.bulletFactory, this.actPattern, this.ENEMY_SCORE, this.firePattern);
-        newEnemy.position1.x = this.getRandomNumberWithRange(20, 400);
+        newEnemy.position1.x = this.getRandomNumberWithRange(20, this.commonValue.windowSize.x);
         newEnemy.position1.y = 20;
 
         return new EntityView<EnemyAircraft>(this.ENEMY_AIRCRAFT_VIEW, newEnemy);

@@ -20,8 +20,8 @@ export default class GameManager {
 
         // windowsizeを監視して更新する.
         app.ticker.add(a => {
-            commonValue.windowSize = new Position(window.innerWidth, window.innerHeight);
-            app.renderer.resize(window.innerWidth, window.innerHeight);
+            commonValue.windowSize = new Position(window.innerWidth - 20, window.innerHeight - 20);
+            app.renderer.resize(commonValue.windowSize.x, commonValue.windowSize.y);
         });
 
         // トップ画面のコンテナを作成

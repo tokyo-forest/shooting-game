@@ -3,6 +3,7 @@ import PixiAdapter from "./PixiAdapter";
 import EntityView from "./view/EntityView";
 import EnemyAircraft from "../domain/aircraft/EnemyAircraft";
 import ScoreManager from "./ScoreManager";
+import CommonValue from "../domain/valueObject/CommonValue";
 
 /**
  * 敵を管理するクラス
@@ -20,8 +21,9 @@ export default class EnemyManager {
     frequencyOfAppearance: number;
 
     enemys: Array<EntityView<EnemyAircraft>>;
+    private commonValue: CommonValue;
 
-    constructor(enemyAircraftFactoryList: Array<EnemyAircraftFactory>, pixiAdapter: PixiAdapter, scoreManager: ScoreManager) {
+    constructor(enemyAircraftFactoryList: Array<EnemyAircraftFactory>, pixiAdapter: PixiAdapter, scoreManager: ScoreManager, commonValue: CommonValue) {
         this.enemyAircraftFactoryList = enemyAircraftFactoryList;
         this.timer = 0;
         this.frequencyOfAppearance = 20;
@@ -29,6 +31,7 @@ export default class EnemyManager {
         this.pixiAdapter = pixiAdapter;
         this.enemys = new Array<EntityView<EnemyAircraft>>();
         this.scoreManager = scoreManager;
+        this.commonValue = commonValue;
     }
 
     play() {

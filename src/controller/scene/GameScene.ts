@@ -51,14 +51,15 @@ export default class GameScene implements BaseScene {
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
         let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter, this.commonValue);
         this.enemyAircraftFactoryList.push(
-            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER), new EasyFirePattern()),
-            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_LEFT), new EasyFirePattern()),
-            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_RIGHT), new EasyFirePattern()),
-            new EnemyAircraftFactory(bulletManager, new RandomActPattern(), new EasyFirePattern()),
-            new EnemyAircraftFactory(bulletManager, new WaveActPattern(), new EasyFirePattern()));
+            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER), new EasyFirePattern(), this.commonValue),
+            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_LEFT), new EasyFirePattern(), this.commonValue),
+            new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_RIGHT), new EasyFirePattern(), this.commonValue),
+            new EnemyAircraftFactory(bulletManager, new RandomActPattern(), new EasyFirePattern(), this.commonValue),
+            new EnemyAircraftFactory(bulletManager, new WaveActPattern(), new EasyFirePattern(), this.commonValue)
+        );
 
         // 敵の管理クラスの設定
-        let enemyManager: EnemyManager = new EnemyManager(this.enemyAircraftFactoryList, this.gamePixiAdapter, scoreManager);
+        let enemyManager: EnemyManager = new EnemyManager(this.enemyAircraftFactoryList, this.gamePixiAdapter, scoreManager, this.commonValue);
         // TODO MyAircraftManagerも欲しいところ
         this.tickerStore.add(delta => enemyManager.play());
 
@@ -163,7 +164,7 @@ export default class GameScene implements BaseScene {
             });
         };
         this.tickerStore.add(delta => judgeWallCollision());
-        this.tickerStore.add(delta => wallCollision.updateLowerRight(this.commonValue.windowSize))
+        this.tickerStore.add(delta => wallCollision.updateLowerRight(this.commonValue.windowSize));
 
         // ダメージの解決
         let applyDamage = () => {

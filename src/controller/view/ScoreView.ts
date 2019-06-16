@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
 import PixiAdapter from "../PixiAdapter";
+import Position from "../../domain/valueObject/Position"
 
 /**
  * スコア表示用のオブジェクト.
@@ -8,7 +9,7 @@ import PixiAdapter from "../PixiAdapter";
 export default class ScoreView {
     private textSprite: PIXI.Text;
 
-    constructor(pixiAdapter: PixiAdapter) {
+    constructor(pixiAdapter: PixiAdapter, position: Position) {
 
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
@@ -28,7 +29,7 @@ export default class ScoreView {
         });
 
         this.textSprite = new PIXI.Text(this.formatScoreText(0), style);
-        this.textSprite.x = 400;
+        this.textSprite.x = position.x - 200;
         this.textSprite.y = 20;
 
         pixiAdapter.addChildSprite(this.textSprite);
