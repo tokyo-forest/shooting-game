@@ -5,9 +5,8 @@ import {TickerStore} from "../SceneManager";
 import {SceneStatus} from "./SceneStatus";
 import KeyboardManager from "../../common/KeyboardManager";
 import CommonValue from "../../domain/valueObject/CommonValue";
-import ScoreView from "../view/ScoreView";
 
-export default class GameOverScene implements BaseScene {
+export default class TopScene implements BaseScene {
     tickerStore: TickerStore;
     app: PIXI.Application;
     gamePixiAdapter: PixiAdapter;
@@ -16,7 +15,7 @@ export default class GameOverScene implements BaseScene {
     commonValue: CommonValue;
 
     constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter, commonValue: CommonValue) {
-        this.tickerStore = new TickerStore(SceneStatus.GAMEOVER);
+        this.tickerStore = new TickerStore(SceneStatus.TOP);
         this.app = app;
         this.gamePixiAdapter = gamePixiAdapter;
         this.keyboardManager = new KeyboardManager();
@@ -45,19 +44,21 @@ export default class GameOverScene implements BaseScene {
         });
 
         let textSprite: PIXI.Text;
-        textSprite = new PIXI.Text("gameover", style);
+        textSprite = new PIXI.Text("SHOOTING GAME TOKYO", style);
         textSprite.x = 20;
         textSprite.y = 20;
 
+        let textSprite2: PIXI.Text;
+        textSprite2 = new PIXI.Text("PRESS SPACE", style);
+        textSprite2.x = 20;
+        textSprite2.y = 120;
+
         this.gamePixiAdapter.addChildSprite(textSprite);
+        this.gamePixiAdapter.addChildSprite(textSprite2);
 
         this.keyboardManager.space.pushPressHandler((event: any) => {
             this.move = true;
         });
-
-        // スコア表示させる.
-        let scoreView = new ScoreView(this.gamePixiAdapter);
-        scoreView.refreshScore(this.commonValue.score);
 
         this.gamePixiAdapter.showContainer();
     }
@@ -74,8 +75,8 @@ export default class GameOverScene implements BaseScene {
 
     nextScene(): SceneStatus {
         if(this.move === true) {
-            return SceneStatus.TOP;
+            return SceneStatus.GAME;
         }
-        return SceneStatus.GAMEOVER;
+        return SceneStatus.TOP;
     }
 }

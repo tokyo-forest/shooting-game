@@ -2,9 +2,10 @@ import * as PIXI from 'pixi.js'
 import PixiAdapter from "../PixiAdapter";
 import {TickerStore} from "../SceneManager";
 import {SceneStatus} from "./SceneStatus";
+import CommonValue from "../../domain/valueObject/CommonValue";
 
 export default abstract class BaseScene {
-    constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter){
+    constructor(app: PIXI.Application, pixiAdapter: PixiAdapter, commonValue: CommonValue){
     };
 
     // シーンを作成する.

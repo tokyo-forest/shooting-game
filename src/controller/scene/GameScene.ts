@@ -21,6 +21,7 @@ import Position from "../../domain/valueObject/Position";
 import InteractionData = PIXI.interaction.InteractionData;
 import { Direction } from '../../domain/valueObject/Direction';
 import WaveActPattern from '../../domain/actPattern/WaveActPattern';
+import CommonValue from "../../domain/valueObject/CommonValue";
 
 export default class GameScene implements BaseScene {
     tickerStore: TickerStore;
@@ -30,15 +31,17 @@ export default class GameScene implements BaseScene {
     app: PIXI.Application;
     gamePixiAdapter: PixiAdapter;
     keyboardManager: KeyboardManager;
+    commonValue: CommonValue;
 
     enemyAircraftFactoryList: Array<EnemyAircraftFactory>;
 
-    constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter) {
+    constructor(app: PIXI.Application, gamePixiAdapter: PixiAdapter, commonValue: CommonValue) {
         this.tickerStore = new TickerStore(SceneStatus.GAME);
         this.app = app;
         this.gamePixiAdapter = gamePixiAdapter;
         this.keyboardManager = new KeyboardManager();
         this.enemyAircraftFactoryList = new Array<EnemyAircraftFactory>();
+        this.commonValue = commonValue;
     }
 
     create() {
@@ -46,7 +49,7 @@ export default class GameScene implements BaseScene {
 
         let bulletManager: BulletManager = new BulletManager(this.gamePixiAdapter);
         let myAircraftFactory: MyAircraftFactory = new MyAircraftFactory(bulletManager);
-        let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter);
+        let scoreManager: ScoreManager = new ScoreManager(this.gamePixiAdapter, this.commonValue);
         this.enemyAircraftFactoryList.push(
             new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER), new EasyFirePattern()),
             new EnemyAircraftFactory(bulletManager, new DiagonalActPattern(Direction.LOWER_LEFT), new EasyFirePattern()),

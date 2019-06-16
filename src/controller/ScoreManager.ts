@@ -3,18 +3,19 @@
  */
 import ScoreView from "./view/ScoreView";
 import PixiAdapter from "./PixiAdapter";
+import CommonValue from "../domain/valueObject/CommonValue";
 
 export default class ScoreManager {
-    /**
-     * スコア.
-     */
-    private score: number;
-
     private scoreView: ScoreView;
 
-    constructor(pixiAdapter: PixiAdapter) {
+    /**
+     * スコアを含む情報
+     */
+    private commonValue: CommonValue;
+
+    constructor(pixiAdapter: PixiAdapter, commonValue: CommonValue) {
         this.scoreView = new ScoreView(pixiAdapter);
-        this.score = 0;
+        this.commonValue = commonValue;
     }
 
     /**
@@ -23,7 +24,7 @@ export default class ScoreManager {
      * @param diffScore スコア差分
      */
     public updateScore(diffScore: number) {
-        this.score += diffScore;
-        this.scoreView.refreshScore(this.score);
+        this.commonValue.score += diffScore;
+        this.scoreView.refreshScore(this.commonValue.score);
     }
 }
