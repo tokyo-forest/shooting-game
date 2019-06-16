@@ -19,7 +19,7 @@ import RandomActPattern from '../../domain/actPattern/RandomActPattern';
 import DiagonalActPattern from '../../domain/actPattern/DiagonalActPattern';
 import Position from "../../domain/valueObject/Position";
 import InteractionData = PIXI.interaction.InteractionData;
-import { Direction } from '../../domain/valueObject/Direction';
+import {Direction} from '../../domain/valueObject/Direction';
 import WaveActPattern from '../../domain/actPattern/WaveActPattern';
 import CommonValue from "../../domain/valueObject/CommonValue";
 
@@ -104,7 +104,7 @@ export default class GameScene implements BaseScene {
             }
         });
 
-        // マウス位置での制御
+        // touchイベントの制御
         // https://pixijs.io/examples/#/interaction/dragging.js
         if (PIXI.utils.isMobile.any === true) {
             const dummy = PIXI.Sprite.from("contents/img/shuttle.gif");
@@ -112,21 +112,19 @@ export default class GameScene implements BaseScene {
             dummy.interactive = true;
             dummy.anchor.set(0.5);
             dummy.scale.set(1);
+            dummy.alpha = 0;// ダミーオブジェクトなので透過させる
             let onDragMove = (event: any) => {
-                console.log("drag event called");
                 const inter: InteractionData = event.data;
                 const p = inter.getLocalPosition(dummy);
-                myUfo.position1 = new Position(p.x, p.y);
+                myUfo.position1 = new Position(p.x, p.y - 40);
             };
             let onDragStart = (event: any) => {
-                console.log("drag event called");
                 const inter: InteractionData = event.data;
                 const p = inter.getLocalPosition(dummy);
-                myUfo.position1 = new Position(p.x, p.y);
+                myUfo.position1 = new Position(p.x, p.y - 40);
             };
             dummy.on('pointermove', onDragMove);
             dummy.on('pointerdown', onDragStart);
-
         }
 
         // 次の行動を設定
@@ -154,7 +152,7 @@ export default class GameScene implements BaseScene {
         this.tickerStore.add(delta => judgeCollision());
 
         // 壁の衝突判定を定義
-        let wallCollision = new WallCollision(20, 20, 400, 400);
+        let wallCollision = new WallCollision(new Position(20, 20), this.commonValue.windowSize);
         let judgeWallCollision = () => {
             wallCollision.determine(myUfo);
             bulletManager.bullets.forEach(mb => {
@@ -165,6 +163,7 @@ export default class GameScene implements BaseScene {
             });
         };
         this.tickerStore.add(delta => judgeWallCollision());
+        this.tickerStore.add(delta => wallCollision.updateLowerRight(this.commonValue.windowSize))
 
         // ダメージの解決
         let applyDamage = () => {

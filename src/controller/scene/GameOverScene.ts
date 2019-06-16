@@ -6,6 +6,7 @@ import {SceneStatus} from "./SceneStatus";
 import KeyboardManager from "../../common/KeyboardManager";
 import CommonValue from "../../domain/valueObject/CommonValue";
 import ScoreView from "../view/ScoreView";
+import InteractionData = PIXI.interaction.InteractionData;
 
 export default class GameOverScene implements BaseScene {
     tickerStore: TickerStore;
@@ -55,6 +56,23 @@ export default class GameOverScene implements BaseScene {
             this.move = true;
         });
 
+        // touchイベントの制御
+        if (PIXI.utils.isMobile.any === true) {
+            const windowSize = this.commonValue.windowSize;
+            const hitArea = new PIXI.Rectangle(0, 0, windowSize.x, windowSize.y);
+            const dummy = new PIXI.Graphics();
+            dummy.interactive = true;
+            dummy.buttonMode = true;
+            dummy.hitArea = hitArea;
+            this.gamePixiAdapter.addChildSprite(dummy);
+            let touchOut = (event: any) => {
+                const inter: InteractionData = event.data;
+                inter.getLocalPosition(dummy);
+                this.move = true;
+            };
+            dummy.on('touchstart', touchOut);
+        }
+
         // スコア表示させる.
         let scoreView = new ScoreView(this.gamePixiAdapter);
         scoreView.refreshScore(this.commonValue.score);
@@ -73,7 +91,7 @@ export default class GameOverScene implements BaseScene {
     }
 
     nextScene(): SceneStatus {
-        if(this.move === true) {
+        if (this.move === true) {
             return SceneStatus.TOP;
         }
         return SceneStatus.GAMEOVER;

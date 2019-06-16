@@ -24,11 +24,11 @@ export default class WallCollision {
     // 下
     private down: number;
 
-    constructor(up: number, left: number, right: number, down: number) {
-        this.up = up;
-        this.left = left;
-        this.right = right;
-        this.down = down;
+    constructor(upperLeft: Position, lowerRight: Position) {
+        this.up = upperLeft.y;
+        this.left = upperLeft.x;
+        this.right = lowerRight.x;
+        this.down = lowerRight.y;
     }
 
     /**
@@ -55,5 +55,14 @@ export default class WallCollision {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 右下の座標の値を更新する.
+     * @param lowerRight 右下座標
+     */
+    updateLowerRight(lowerRight: Position) {
+        this.right = lowerRight.x;
+        this.down = lowerRight.y;
     }
 }

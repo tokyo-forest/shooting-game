@@ -7,6 +7,7 @@ import {SceneStatus} from "./scene/SceneStatus";
 import Container = PIXI.Container;
 import CommonValue from "../domain/valueObject/CommonValue";
 import TopScene from "./scene/TopScene";
+import Position from "../domain/valueObject/Position"
 
 /**
  * ゲームマネージャクラス
@@ -14,7 +15,14 @@ import TopScene from "./scene/TopScene";
 export default class GameManager {
     static createGame(app: PIXI.Application) {
 
-        let commonValue = new CommonValue(0);
+        let windowSize = new Position(window.innerWidth, window.innerHeight);
+        let commonValue = new CommonValue(0, windowSize);
+
+        // windowsizeを監視して更新する.
+        app.ticker.add(a => {
+            commonValue.windowSize = new Position(window.innerWidth, window.innerHeight);
+            app.renderer.resize(window.innerWidth, window.innerHeight);
+        });
 
         // トップ画面のコンテナを作成
         let topContainer = new Container();

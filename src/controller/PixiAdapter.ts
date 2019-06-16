@@ -13,10 +13,10 @@ export default class PixiAdapter {
     /**
      * stageにspriteを登録する.
      *
-     * @param sprite
+     * @param container
      */
-    public addChildSprite(sprite: PIXI.Sprite) {
-        this.stage.addChild(sprite);
+    public addChildSprite(container: PIXI.Container) {
+        this.stage.addChild(container);
     }
 
     /**

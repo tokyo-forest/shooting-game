@@ -5,6 +5,7 @@ import {TickerStore} from "../SceneManager";
 import {SceneStatus} from "./SceneStatus";
 import KeyboardManager from "../../common/KeyboardManager";
 import CommonValue from "../../domain/valueObject/CommonValue";
+import InteractionData = PIXI.interaction.InteractionData;
 
 export default class TopScene implements BaseScene {
     tickerStore: TickerStore;
@@ -56,14 +57,33 @@ export default class TopScene implements BaseScene {
         this.gamePixiAdapter.addChildSprite(textSprite);
         this.gamePixiAdapter.addChildSprite(textSprite2);
 
+        // キーボードイベントの制御
         this.keyboardManager.space.pushPressHandler((event: any) => {
             this.move = true;
         });
+
+        // touchイベントの制御
+        if (PIXI.utils.isMobile.any === true) {
+            const windowSize = this.commonValue.windowSize;
+            const hitArea = new PIXI.Rectangle(0, 0, windowSize.x, windowSize.y);
+            const dummy = new PIXI.Graphics();
+            dummy.interactive = true;
+            dummy.buttonMode = true;
+            dummy.hitArea = hitArea;
+            this.gamePixiAdapter.addChildSprite(dummy);
+            let touchOut = (event: any) => {
+                const inter: InteractionData = event.data;
+                inter.getLocalPosition(dummy);
+                this.move = true;
+            };
+            dummy.on('touchstart', touchOut);
+        }
 
         this.gamePixiAdapter.showContainer();
     }
 
     destroy(): void {
+        this.move = false;
         this.gamePixiAdapter.hideContainer();
         this.gamePixiAdapter.removeChildren();
         this.commonValue.score = 0;
@@ -74,7 +94,7 @@ export default class TopScene implements BaseScene {
     }
 
     nextScene(): SceneStatus {
-        if(this.move === true) {
+        if (this.move === true) {
             return SceneStatus.GAME;
         }
         return SceneStatus.TOP;
