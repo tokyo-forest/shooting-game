@@ -47,8 +47,8 @@ export default class GameOverScene implements BaseScene {
 
         let textSprite: PIXI.Text;
         textSprite = new PIXI.Text("gameover", style);
-        textSprite.x = 20;
-        textSprite.y = 20;
+        textSprite.x = 50;
+        textSprite.y = 200;
 
         this.gamePixiAdapter.addChildSprite(textSprite);
 

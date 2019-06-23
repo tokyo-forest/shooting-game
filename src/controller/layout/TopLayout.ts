@@ -5,7 +5,7 @@ import MainTextView from "../view/MainTextView";
 import Position from "../../domain/valueObject/Position";
 import DescriptionView from "../view/DescriptionView";
 
-export default class TopScene {
+export default class TopLayout {
     pixiAdapter: PixiAdapter;
     commonValue: CommonValue;
 
@@ -22,8 +22,6 @@ export default class TopScene {
             "SHOOTING GAME TOKYO",
             new Position((windowSize.x / 2) - 100, 40)
         );
-
-        console.log(windowSize);
 
         new DescriptionView(
             this.pixiAdapter,

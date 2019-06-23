@@ -26,7 +26,7 @@ export default class EnemyManager {
     constructor(enemyAircraftFactoryList: Array<EnemyAircraftFactory>, pixiAdapter: PixiAdapter, scoreManager: ScoreManager, commonValue: CommonValue) {
         this.enemyAircraftFactoryList = enemyAircraftFactoryList;
         this.timer = 0;
-        this.frequencyOfAppearance = 20;
+        this.frequencyOfAppearance = 60;
         this.nextCreateTimer = this.getRandomNumberWithRange(this.frequencyOfAppearance, 1);
         this.pixiAdapter = pixiAdapter;
         this.enemys = new Array<EntityView<EnemyAircraft>>();
@@ -37,12 +37,22 @@ export default class EnemyManager {
     play() {
         this.timer++;
 
+        // 時間が立つと敵を出現させる
         if (this.timer >= this.nextCreateTimer) {
             let chosenEnemyFactory = this.enemyAircraftFactoryList[Math.floor(Math.random() * this.enemyAircraftFactoryList.length)];
             let entityView: EntityView<EnemyAircraft> = chosenEnemyFactory.createAircraft();
             this.enemys.push(entityView);
             this.pixiAdapter.addChildSprite(entityView.$sprite);
             this.nextCreateTimer += this.getRandomNumberWithRange(1, this.frequencyOfAppearance)
+        }
+
+        // 時間経過で出現頻度を上げる
+        if(this.timer % 600 === 0) {
+            console.log("level up");
+            this.frequencyOfAppearance = this.frequencyOfAppearance - 5;
+            if(this.frequencyOfAppearance <= 0) {
+                this.frequencyOfAppearance = 1;// 1以下にはならない
+            }
         }
     }
 

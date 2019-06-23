@@ -13,7 +13,7 @@ export default class ScoreView {
 
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
-            fontSize: 36,
+            fontSize: '24pt',
             fontStyle: 'italic',
             fontWeight: 'bold',
             fill: ['#ffffff', '#00ff99'], // gradient

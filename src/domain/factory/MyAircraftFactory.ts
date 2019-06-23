@@ -18,7 +18,7 @@ export default class MyAircraftFactory {
     MY_AIRCRAFT_VIEW: string = 'contents/img/shuttle.gif';
 
     MY_AIRCRAFT_RADIUS: number = 10;
-    MY_AIRCRAFT_LAUNCH_INTERVAL: number = 10;
+    MY_AIRCRAFT_LAUNCH_INTERVAL: number = 20;
 
     // 初期位置
     DEFAULT_POS_X: number = 100;

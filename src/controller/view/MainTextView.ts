@@ -12,7 +12,7 @@ export default class MainTextView {
 
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
-            fontSize: 36,
+            fontSize: '24pt',
             fontStyle: 'italic',
             fontWeight: 'bold',
             fill: ['#ffffff', '#00ff99'], // gradient
@@ -24,7 +24,7 @@ export default class MainTextView {
             dropShadowAngle: Math.PI / 6,
             dropShadowDistance: 6,
             wordWrap: true,
-            wordWrapWidth: 440,
+            wordWrapWidth: 300,
         });
 
         this.textSprite = new PIXI.Text(text, style);
