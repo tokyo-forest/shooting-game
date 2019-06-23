@@ -20,13 +20,15 @@ export default class TopLayout {
         new MainTextView(
             this.pixiAdapter,
             "SHOOTING GAME TOKYO",
-            new Position((windowSize.x / 2) - 100, 40)
+            new Position((windowSize.x / 2) - 100, 40),
+            windowSize
         );
 
         new DescriptionView(
             this.pixiAdapter,
             "PRESS SPACE",
-            new Position((windowSize.x / 2) - 100, windowSize.y - 100)
+            new Position((windowSize.x / 2) - 100, windowSize.y - 100),
+            windowSize
         );
     }
 

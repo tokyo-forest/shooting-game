@@ -8,7 +8,7 @@ import Position from "../../domain/valueObject/Position"
 export default class DescriptionView {
     private textSprite: PIXI.Text;
 
-    constructor(pixiAdapter: PixiAdapter, title: string, position: Position) {
+    constructor(pixiAdapter: PixiAdapter, title: string, position: Position, windowSize: Position) {
 
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial',
@@ -24,7 +24,7 @@ export default class DescriptionView {
             dropShadowAngle: Math.PI / 6,
             dropShadowDistance: 6,
             wordWrap: true,
-            wordWrapWidth: 440,
+            wordWrapWidth: windowSize.x/2,
         });
 
         this.textSprite = new PIXI.Text(title, style);
